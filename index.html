@@ -572,16 +572,16 @@
         <div class="step-card">
           <div class="step-badge">STEP 2</div>
           <div class="step-body">
-            <h4>Enter Transaction ID</h4>
-            <p>Type your 12-digit UPI UTR / Transaction ID in the box below.</p>
+            <h4>Upload Payment Screenshot</h4>
+            <p>Upload your payment slip / screenshot from GPay, PhonePe, or Paytm.</p>
           </div>
         </div>
 
         <div class="step-card">
           <div class="step-badge">STEP 3</div>
           <div class="step-body">
-            <h4>Direct Send on WhatsApp</h4>
-            <p>Click the green WhatsApp button to instantly send your payment + student details!</p>
+            <h4>Send on WhatsApp</h4>
+            <p>Click the green WhatsApp button to send your payment proof & student details!</p>
           </div>
         </div>
 
@@ -645,31 +645,67 @@
           </div>
         </div>
 
-        <!-- Transaction ID / UTR Input Box -->
-        <div class="txn-input-section">
-          <div class="txn-input-header">
-            <label for="upiTransactionId">
-              <i class="fa-solid fa-receipt text-gold"></i>
-              <span>Enter UPI Transaction ID / UTR Number *</span>
+        <!-- Payment Screenshot Upload Section -->
+        <div class="screenshot-upload-section" id="screenshotUploadSection">
+          <div class="upload-header">
+            <label for="paymentScreenshotInput">
+              <i class="fa-solid fa-camera text-gold"></i>
+              <span>Upload Payment Screenshot *</span>
             </label>
-            <span class="txn-required-badge"><i class="fa-solid fa-lock"></i> Required to Unlock</span>
+            <span class="txn-required-badge" id="screenshotStatusBadge"><i class="fa-solid fa-lock"></i> Screenshot Required</span>
           </div>
-          <div class="txn-input-wrap">
-            <input type="text" id="upiTransactionId" class="txn-input-field" placeholder="Enter 12-digit UTR (e.g. 428190284712)" oninput="handleTxnInput()" autocomplete="off">
+
+          <!-- Hidden Native File Input -->
+          <input type="file" id="paymentScreenshotInput" accept="image/*" style="display:none;" onchange="handleScreenshotUpload(event)">
+
+          <!-- Interactive Dropzone -->
+          <div class="screenshot-dropzone" id="screenshotDropzone" onclick="triggerScreenshotPicker()">
+            
+            <!-- Default Prompt Wrap (Visible before upload) -->
+            <div class="dropzone-prompt" id="screenshotPromptWrap">
+              <div class="dropzone-icon">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+              </div>
+              <div class="dropzone-text">
+                <strong>Tap / Click to Upload Payment Screenshot</strong>
+                <span>Attach screenshot from GPay / PhonePe / Paytm</span>
+              </div>
+              <button type="button" class="btn-choose-file">
+                <i class="fa-solid fa-images"></i> Choose Image / Camera
+              </button>
+            </div>
+
+            <!-- Uploaded Preview Wrap (Visible after upload) -->
+            <div class="screenshot-preview-card" id="screenshotPreviewCard" style="display:none;">
+              <div class="preview-thumb-wrap">
+                <img id="screenshotPreviewImg" src="" alt="Payment Screenshot Preview">
+              </div>
+              <div class="preview-details">
+                <span class="preview-file-name" id="screenshotFileName">payment_screenshot.jpg</span>
+                <span class="preview-status-badge"><i class="fa-solid fa-circle-check"></i> Screenshot Attached & Ready</span>
+                <button type="button" class="btn-change-screenshot" onclick="changeScreenshot(event)">
+                  <i class="fa-solid fa-rotate-left"></i> Change Screenshot
+                </button>
+              </div>
+            </div>
+
           </div>
-          <p class="txn-help-text">
-            <i class="fa-solid fa-shield-halved text-green"></i> Copy the 12-digit UTR / Ref No. from GPay, PhonePe or Paytm after paying.
-          </p>
+
+          <!-- Optional UTR / Txn ID Row -->
+          <div class="optional-utr-toggle">
+            <span class="optional-utr-lbl"><i class="fa-solid fa-receipt text-gold"></i> (Optional) UPI Transaction ID / UTR:</span>
+            <input type="text" id="upiTransactionId" class="txn-input-field optional-field" placeholder="Enter 12-digit UTR if available" oninput="handleTxnInput()" autocomplete="off">
+          </div>
         </div>
 
         <!-- Direct WhatsApp Send CTA Button -->
         <div class="post-payment-cta">
           <button type="button" class="btn-whatsapp-screenshot locked" id="btnSendWhatsappWithTxn" onclick="sendFinalBookingWhatsApp()">
             <i class="fa-brands fa-whatsapp"></i>
-            <span id="btnWhatsappText">🔒 Enter Transaction ID to Confirm on WhatsApp</span>
+            <span id="btnWhatsappText">🔒 Upload Payment Screenshot to Unlock</span>
           </button>
           <div class="btn-disabled-hint" id="txnBtnHint">
-            <i class="fa-solid fa-lock text-gold"></i> Please enter your UPI Transaction ID above to enable WhatsApp confirmation.
+            <i class="fa-solid fa-lock text-gold"></i> Please upload your payment screenshot above to confirm booking on WhatsApp.
           </div>
         </div>
 

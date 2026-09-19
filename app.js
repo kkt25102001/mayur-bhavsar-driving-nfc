@@ -558,21 +558,101 @@ function handleBookingSubmit(event) {
   // Smooth scroll down to QR payment section
   smoothScrollTo("bookingPaymentSection");
 
-  // Highlight and focus the Transaction ID input
+  // Highlight the Screenshot Upload section
   setTimeout(() => {
-    const txnField = document.getElementById("upiTransactionId");
-    if (txnField) {
-      txnField.focus();
+    const uploadSec = document.getElementById("screenshotUploadSection");
+    if (uploadSec) {
+      uploadSec.classList.add("shake-alert");
+      setTimeout(() => uploadSec.classList.remove("shake-alert"), 600);
     }
   }, 600);
 
   // Celebrate with confetti & notify user
   triggerConfetti();
-  showToast(`✅ Details locked! Scan QR below & enter Transaction ID`);
+  showToast(`✅ Details locked! Scan QR below & attach Payment Screenshot`);
+}
+
+// Global Screenshot Upload State
+let uploadedPaymentScreenshot = {
+  file: null,
+  dataUrl: "",
+  name: ""
+};
+
+/**
+ * Open file picker dialog for payment screenshot
+ */
+function triggerScreenshotPicker() {
+  document.getElementById("paymentScreenshotInput")?.click();
 }
 
 /**
- * Handle Live Input in Transaction ID Field (Enables/Disables WhatsApp Button)
+ * Change screenshot file
+ */
+function changeScreenshot(event) {
+  if (event) event.stopPropagation();
+  triggerScreenshotPicker();
+}
+
+/**
+ * Handle Payment Screenshot File Upload & Preview
+ */
+function handleScreenshotUpload(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    showToast("⚠️ Please select a valid image file (JPG, PNG, WebP)");
+    return;
+  }
+
+  uploadedPaymentScreenshot.file = file;
+  uploadedPaymentScreenshot.name = file.name;
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    uploadedPaymentScreenshot.dataUrl = e.target.result;
+
+    // Update Preview Thumbnail & File Name
+    const previewImg = document.getElementById("screenshotPreviewImg");
+    const fileNameDisplay = document.getElementById("screenshotFileName");
+    const promptWrap = document.getElementById("screenshotPromptWrap");
+    const previewCard = document.getElementById("screenshotPreviewCard");
+    const dropzone = document.getElementById("screenshotDropzone");
+    const uploadSection = document.getElementById("screenshotUploadSection");
+    const statusBadge = document.getElementById("screenshotStatusBadge");
+    const btn = document.getElementById("btnSendWhatsappWithTxn");
+    const btnText = document.getElementById("btnWhatsappText");
+    const hint = document.getElementById("txnBtnHint");
+
+    if (previewImg) previewImg.src = uploadedPaymentScreenshot.dataUrl;
+    if (fileNameDisplay) fileNameDisplay.textContent = file.name;
+    if (promptWrap) promptWrap.style.display = "none";
+    if (previewCard) previewCard.style.display = "flex";
+    if (dropzone) dropzone.classList.add("has-file");
+    if (uploadSection) uploadSection.classList.add("valid");
+
+    if (statusBadge) {
+      statusBadge.classList.add("valid");
+      statusBadge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Screenshot Ready`;
+    }
+
+    // Unlock WhatsApp Button
+    if (btn) btn.classList.remove("locked");
+    if (btnText) btnText.textContent = "✅ Send Booking & Payment Screenshot on WhatsApp";
+    if (hint) {
+      hint.innerHTML = `<span class="hint-unlocked"><i class="fa-solid fa-circle-check text-green"></i> Screenshot attached! Click button above to open WhatsApp.</span>`;
+    }
+
+    triggerConfetti();
+    showToast("📸 Payment Screenshot attached! Ready to send on WhatsApp.");
+  };
+
+  reader.readAsDataURL(file);
+}
+
+/**
+ * Handle Live Input in Optional Transaction ID Field
  */
 function handleTxnInput() {
   const txnField = document.getElementById("upiTransactionId");
@@ -580,60 +660,51 @@ function handleTxnInput() {
   const btn = document.getElementById("btnSendWhatsappWithTxn");
   const btnText = document.getElementById("btnWhatsappText");
   const hint = document.getElementById("txnBtnHint");
-  const badge = document.querySelector(".txn-required-badge");
 
   if (CONFIG.studentBooking) {
     CONFIG.studentBooking.txnId = txnVal;
   }
 
-  // Minimum required length for Transaction ID / UTR (typically 6-12 digits)
-  if (txnVal.length >= 4) {
-    if (btn) {
-      btn.classList.remove("locked");
-    }
+  // If UTR entered or screenshot already uploaded, keep WhatsApp button unlocked
+  if (txnVal.length >= 4 || uploadedPaymentScreenshot.file) {
+    if (btn) btn.classList.remove("locked");
     if (txnField) txnField.classList.add("valid");
-    if (badge) {
-      badge.classList.add("valid");
-      badge.innerHTML = `<i class="fa-solid fa-circle-check"></i> UTR Entered`;
-    }
     if (btnText) {
-      btnText.textContent = `✅ Send Payment (UTR: ${txnVal}) & Booking Details on WhatsApp`;
+      btnText.textContent = uploadedPaymentScreenshot.file 
+        ? "✅ Send Booking & Payment Screenshot on WhatsApp" 
+        : `✅ Send Payment (UTR: ${txnVal}) & Booking Details on WhatsApp`;
     }
     if (hint) {
-      hint.innerHTML = `<span class="hint-unlocked"><i class="fa-solid fa-circle-check text-green"></i> Transaction ID linked! Click button above to open WhatsApp.</span>`;
+      hint.innerHTML = `<span class="hint-unlocked"><i class="fa-solid fa-circle-check text-green"></i> Payment proof linked! Click button above to open WhatsApp.</span>`;
     }
-  } else {
-    if (btn) {
-      btn.classList.add("locked");
-    }
+  } else if (!uploadedPaymentScreenshot.file) {
+    if (btn) btn.classList.add("locked");
     if (txnField) txnField.classList.remove("valid");
-    if (badge) {
-      badge.classList.remove("valid");
-      badge.innerHTML = `<i class="fa-solid fa-lock"></i> Required to Unlock`;
-    }
     if (btnText) {
-      btnText.textContent = "🔒 Enter Transaction ID Above to Unlock";
+      btnText.textContent = "🔒 Upload Payment Screenshot to Unlock";
     }
     if (hint) {
-      hint.innerHTML = `<i class="fa-solid fa-lock text-gold"></i> Please enter your UPI Transaction ID above to enable WhatsApp confirmation.`;
+      hint.innerHTML = `<i class="fa-solid fa-lock text-gold"></i> Please upload your payment screenshot above to confirm booking on WhatsApp.`;
     }
   }
 }
 
 /**
- * Step 2: Final WhatsApp Submission with Payment Status, Txn ID, and all Client Details
+ * Step 2: Final WhatsApp Submission with Payment Screenshot, Txn ID, and all Client Details
  */
-function sendFinalBookingWhatsApp() {
+async function sendFinalBookingWhatsApp() {
+  const hasScreenshot = Boolean(uploadedPaymentScreenshot.file);
   const txnField = document.getElementById("upiTransactionId");
   const txnId = txnField ? txnField.value.trim() : (CONFIG.studentBooking.txnId || "");
 
-  // Strict check: Transaction ID MUST be entered
-  if (!txnId || txnId.length < 4) {
-    showToast("⚠️ Please enter your UPI Transaction ID / UTR number first!");
-    if (txnField) {
-      txnField.focus();
-      txnField.classList.add("shake-alert");
-      setTimeout(() => txnField.classList.remove("shake-alert"), 600);
+  // Strict check: Screenshot OR Transaction ID MUST be provided
+  if (!hasScreenshot && (!txnId || txnId.length < 4)) {
+    showToast("⚠️ Please upload your payment screenshot first!");
+    const uploadSec = document.getElementById("screenshotUploadSection");
+    if (uploadSec) {
+      smoothScrollTo("screenshotUploadSection");
+      uploadSec.classList.add("shake-alert");
+      setTimeout(() => uploadSec.classList.remove("shake-alert"), 600);
     }
     return;
   }
@@ -661,12 +732,16 @@ function sendFinalBookingWhatsApp() {
 
   // Construct comprehensive formatted WhatsApp message
   const pkgTierName = amount === 5000 ? "Silver Package - ₹5,000 (5 Days: Mon to Fri)" : "Gold Package - ₹10,000 (10 Days: 2 Weeks Mon-Fri)";
+  const paymentProofLine = hasScreenshot 
+    ? `📸 *Payment Proof:* Payment Screenshot Attached (GPay / PhonePe / Paytm)`
+    : `🔢 *UPI Transaction ID / UTR:* ${txnId}`;
+  const optionalTxnLine = (hasScreenshot && txnId) ? `\n🔢 *UTR / Ref No:* ${txnId}` : '';
 
   const message = `*🚗 NEW CAR DRIVING TRAINING BOOKING & PAYMENT (SURAT)*
 ━━━━━━━━━━━━━━━━━━━━━
 ✅ *PAYMENT STATUS: COMPLETED*
 💰 *Amount Paid:* ₹${amount.toLocaleString("en-IN")}/- (${pkgTierName})
-🔢 *UPI Transaction ID / UTR:* ${txnId}
+${paymentProofLine}${optionalTxnLine}
 ━━━━━━━━━━━━━━━━━━━━━
 👤 *Client & Student Details:*
 • *Full Name:* ${name}
@@ -679,13 +754,43 @@ function sendFinalBookingWhatsApp() {
 • *Daily Batch Slot:* ${slot}
 ━━━━━━━━━━━━━━━━━━━━━
 📍 *Doorstep Personal Coaching across Surat City*
-_I have completed the UPI payment. Please verify the transaction, confirm my slot lock, and share the training schedule!_`;
+_I have attached my payment screenshot with this booking. Please confirm my slot lock and training schedule!_`;
+
+  // Attempt Mobile Native Share (Shares both Image File + Message Text directly into WhatsApp)
+  if (hasScreenshot && navigator.canShare && uploadedPaymentScreenshot.file) {
+    try {
+      if (navigator.canShare({ files: [uploadedPaymentScreenshot.file] })) {
+        await navigator.share({
+          title: "Mayur Bhavsr Driving Training Booking",
+          text: message,
+          files: [uploadedPaymentScreenshot.file]
+        });
+        triggerConfetti();
+        showToast("✅ Opening WhatsApp with image & booking details!");
+        return;
+      }
+    } catch (shareErr) {
+      if (shareErr.name === 'AbortError') return;
+      // Fallback to wa.me link
+    }
+  }
+
+  // Attempt to copy screenshot image to clipboard for convenient Ctrl+V in WhatsApp Web
+  if (hasScreenshot && navigator.clipboard && window.ClipboardItem && uploadedPaymentScreenshot.file) {
+    try {
+      await navigator.clipboard.write([
+        new ClipboardItem({ [uploadedPaymentScreenshot.file.type]: uploadedPaymentScreenshot.file })
+      ]);
+    } catch (clipErr) {
+      // Non-blocking clipboard fallback
+    }
+  }
 
   const encoded = encodeURIComponent(message);
   const whatsappUrl = `https://wa.me/91${CONFIG.phone}?text=${encoded}`;
 
   triggerConfetti();
-  showToast("Opening WhatsApp with payment & student details...");
+  showToast("Opening WhatsApp! Image copied to clipboard — paste (Ctrl+V) in chat.");
   window.open(whatsappUrl, "_blank");
 }
 
