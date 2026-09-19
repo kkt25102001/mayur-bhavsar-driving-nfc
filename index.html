@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Mayur Bhavsar | Professional Car Driving Trainer (Surat)</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Mayur Bhavsar - Professional Car Driving Trainer in Surat since 2012 (13+ Years Experience). Learn to drive on your own car with 100% confidence. Doorstep coaching across Surat.">
+  <meta name="keywords" content="Mayur Bhavsar, Car Driving Trainer Surat, Learn Driving Own Car Surat, Driving Classes Surat, Personal Driving Coach Adajan Vesu Pal, Driving School Surat">
+  <meta name="author" content="Mayur Bhavsar | Powered by Khushi Creative Tech">
+  
+  <!-- Open Graph / WhatsApp Sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Mayur Bhavsar - Car Driving Professional Trainer (Surat)">
+  <meta property="og:description" content="Learn to Drive on Your Own Car. Doorstep coaching in Surat. 13+ Years Experience. Book your batch slot now!">
+  <meta property="og:image" content="./assets/logo.png">
+  <meta name="theme-color" content="#0B0D12">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="./assets/logo.png">
+  
+  <!-- Google Fonts: Plus Jakarta Sans, Outfit, Montserrat (Clean & Modern) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome 6.5.1 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- QR Code & Confetti Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <script src="./assets/logo_b64.js"></script>
+  <script src="./assets/qr_b64.js"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Ambient Glow & Background Pattern -->
+  <div class="ambient-glow glow-top-left"></div>
+  <div class="ambient-glow glow-top-right"></div>
+  <div class="road-grid-pattern"></div>
+
+  <!-- Main Mobile-First Card Container -->
+  <main class="app-card" id="app">
+    
+    <!-- Top Sticky Header -->
+    <header class="top-nav-bar">
+      <div class="status-indicator">
+        <span class="pulse-dot"></span>
+        <span class="status-text">Bookings Open &bull; Surat Batches</span>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" id="btnShareCard" title="Share Digital Card" aria-label="Share Card">
+          <i class="fa-solid fa-share-nodes"></i>
+        </button>
+        <button class="icon-btn" id="btnQrCodeModal" title="View QR Code" aria-label="View QR Code">
+          <i class="fa-solid fa-qrcode"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero Identity & Branding Section -->
+    <section class="hero-section">
+      
+      <!-- Luxury Brand Logo Showcase Card -->
+      <div class="hero-brand-card">
+        <div class="brand-card-glow"></div>
+        <img src="./assets/logo.png" alt="Mayur Bhavsar Car Driving Professional Trainer Logo" class="brand-logo-img" id="mainBrandLogo" onerror="if(window.BRAND_LOGO_B64){this.src=window.BRAND_LOGO_B64;}else{this.src='./assets/logo.svg';}">
+      </div>
+
+      <!-- Hidden SEO H1 -->
+      <h1 class="sr-only">Mayur Bhavsar - Car Driving Professional Trainer Surat</h1>
+
+      <!-- Trust Badges Row -->
+      <div class="brand-badges-row">
+        <span class="badge badge-gold">
+          <i class="fa-solid fa-award"></i> Since 2012
+        </span>
+        <span class="badge badge-green">
+          <i class="fa-solid fa-shield-halved"></i> 13+ Years Experience
+        </span>
+        <span class="badge badge-surat">
+          <i class="fa-solid fa-location-dot"></i> Surat City Only
+        </span>
+      </div>
+      
+      <!-- Main Value Proposition Box -->
+      <div class="headline-box">
+        <div class="headline-tag"><i class="fa-solid fa-star text-gold"></i> DOORSTEP PERSONAL COACHING IN SURAT</div>
+        <h2 class="main-headline">Learn to Drive on <span class="highlight-gold">Your Own Car</span></h2>
+        <p class="sub-headline">Your Journey. Your Car. Our Guidance.</p>
+      </div>
+
+      <!-- Tagline Ticker Ribbon -->
+      <div class="tagline-ticker">
+        <div class="ticker-track">
+          <span class="ticker-item"><i class="fa-solid fa-car-side"></i> Drive Today, A Better Tomorrow</span>
+          <span class="ticker-divider">&bull;</span>
+          <span class="ticker-item"><i class="fa-solid fa-shield-heart"></i> Safe Driving</span>
+          <span class="ticker-divider">&bull;</span>
+          <span class="ticker-item"><i class="fa-solid fa-bolt"></i> 100% Confidence</span>
+          <span class="ticker-divider">&bull;</span>
+          <span class="ticker-item"><i class="fa-solid fa-gauge-high"></i> Drive with Skill</span>
+          <span class="ticker-divider">&bull;</span>
+          <span class="ticker-item"><i class="fa-solid fa-road"></i> Exclusively in Surat</span>
+          <span class="ticker-divider">&bull;</span>
+        </div>
+      </div>
+
+      <!-- Quick Action 4-Grid (All Clickable) -->
+      <div class="quick-actions-grid">
+        
+        <a href="tel:+919879629424" class="quick-btn btn-call" id="btnHeroCall">
+          <div class="btn-icon"><i class="fa-solid fa-phone-volume"></i></div>
+          <div class="btn-text">
+            <span class="btn-label">Call Now</span>
+            <span class="btn-sub">9879629424</span>
+          </div>
+        </a>
+
+        <a href="https://wa.me/919879629424?text=Hi%20Mayur%20Sir%2C%20I%20am%20from%20Surat%20and%20interested%20in%20Car%20Driving%20Training%20on%20my%20own%20car.%20Please%20share%20details." target="_blank" rel="noopener" class="quick-btn btn-whatsapp" id="btnHeroWhatsapp">
+          <div class="btn-icon"><i class="fa-brands fa-whatsapp"></i></div>
+          <div class="btn-text">
+            <span class="btn-label">WhatsApp</span>
+            <span class="btn-sub">Instant Chat</span>
+          </div>
+        </a>
+
+        <button class="quick-btn btn-vcard" id="btnSaveContact" type="button">
+          <div class="btn-icon"><i class="fa-solid fa-address-card"></i></div>
+          <div class="btn-text">
+            <span class="btn-label">Save Contact</span>
+            <span class="btn-sub">Add to Phone</span>
+          </div>
+        </button>
+
+        <a href="https://g.co/kgs/Fj7B374" target="_blank" rel="noopener" class="quick-btn btn-location" id="btnHeroLocation">
+          <div class="btn-icon"><i class="fa-solid fa-location-dot"></i></div>
+          <div class="btn-text">
+            <span class="btn-label">Surat Location</span>
+            <span class="btn-sub">Google Maps</span>
+          </div>
+        </a>
+
+      </div>
+
+    </section>
+
+    <!-- Surat Location Notice Card -->
+    <section class="surat-notice-banner">
+      <div class="surat-notice-icon">
+        <i class="fa-solid fa-location-crosshairs"></i>
+      </div>
+      <div class="surat-notice-content">
+        <strong>📍 Exclusively Serving Surat City</strong>
+        <p>Doorstep pickup & personal car coaching available across all Surat areas: <em>Adajan, Vesu, Pal, Piplod, Althan, City Light, Varachha, Katargam & VIP Road</em>.</p>
+      </div>
+    </section>
+
+    <!-- Why Learn On Your Own Car? (USP Section) -->
+    <section class="section-card value-prop-card">
+      <div class="section-header-compact">
+        <i class="fa-solid fa-key header-icon-gold"></i>
+        <h3>Why Learn on Your Own Car?</h3>
+      </div>
+      <p class="value-subtitle">Ordinary driving schools use dual-pedal cars where the instructor controls the brakes. We train you directly on <strong>your personal car</strong> so you gain real independent confidence from Day 1!</p>
+      
+      <div class="usp-grid">
+        <div class="usp-item">
+          <div class="usp-badge"><i class="fa-solid fa-gauge-high"></i></div>
+          <div class="usp-details">
+            <strong>Your Car's Exact Clutch & Dimensions</strong>
+            <p>Master your specific car's clutch bite-point, braking distance, steering radius, and blind spots.</p>
+          </div>
+        </div>
+        <div class="usp-item">
+          <div class="usp-badge"><i class="fa-solid fa-house-chimney-user"></i></div>
+          <div class="usp-details">
+            <strong>Daily Commute & Society Parking</strong>
+            <p>Direct practice on your daily Surat office routes, flyovers, tight society gates, and basement ramps.</p>
+          </div>
+        </div>
+        <div class="usp-item">
+          <div class="usp-badge"><i class="fa-solid fa-user-check"></i></div>
+          <div class="usp-details">
+            <strong>1-on-1 Dedicated Coaching</strong>
+            <p>100% personalized focus matched to your learning speed with zero rush and maximum patience.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Packages & Pricing Section -->
+    <section class="section-card" id="packagesSection">
+      <div class="section-header">
+        <div class="header-pill">PLANS & PRICING</div>
+        <h2 class="section-title">Training Packages</h2>
+        <p class="section-subtitle">Structured Monday to Friday intensive coaching with flexible batch timings</p>
+      </div>
+
+      <div class="packages-container">
+        
+        <!-- Silver Package -->
+        <div class="package-card" id="cardSilver">
+          <div class="package-header">
+            <div class="pkg-title-wrap">
+              <span class="pkg-tier-badge silver-tier">SILVER PACKAGE</span>
+              <h3 class="pkg-name">5 Days Training</h3>
+            </div>
+            <div class="pkg-price-wrap">
+              <span class="currency">₹</span>
+              <span class="price-val">5,000</span>
+              <span class="price-period">/-</span>
+            </div>
+          </div>
+
+          <div class="pkg-schedule-pill">
+            <i class="fa-regular fa-calendar-days"></i> Mon to Fri &bull; 2 Hours / Day (10 Hrs Total)
+          </div>
+
+          <ul class="pkg-features">
+            <li><i class="fa-solid fa-circle-check text-green"></i> Personal training on your own car</li>
+            <li><i class="fa-solid fa-circle-check text-green"></i> Clutch, Brake & Gear Synchronization</li>
+            <li><i class="fa-solid fa-circle-check text-green"></i> Left & Right Side Judgment Mastery</li>
+            <li><i class="fa-solid fa-circle-check text-green"></i> Basic Traffic, Turns & Lane Control</li>
+            <li><i class="fa-solid fa-circle-check text-green"></i> Ideal for beginners & skill refreshers</li>
+          </ul>
+
+          <button class="pkg-cta-btn btn-silver-outline" onclick="selectPackageAndPay(5000, 'Silver Package (5 Days)')">
+            <span>Book Silver Package (₹5,000)</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- Gold Package (Featured) -->
+        <div class="package-card featured-gold-card" id="cardGold">
+          <div class="popular-tag">
+            <i class="fa-solid fa-crown"></i> MOST RECOMMENDED
+          </div>
+
+          <div class="package-header">
+            <div class="pkg-title-wrap">
+              <span class="pkg-tier-badge gold-tier">GOLD PACKAGE</span>
+              <h3 class="pkg-name">10 Days Intensive</h3>
+            </div>
+            <div class="pkg-price-wrap">
+              <span class="currency">₹</span>
+              <span class="price-val">10,000</span>
+              <span class="price-period">/-</span>
+            </div>
+          </div>
+
+          <div class="pkg-schedule-pill gold-schedule">
+            <i class="fa-regular fa-calendar-days"></i> Mon to Fri &bull; 2 Hours / Day (20 Hrs Total)
+          </div>
+
+          <!-- Age 35+ Callout -->
+          <div class="special-age-callout">
+            <div class="callout-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+            <div class="callout-content">
+              <strong>Special Age 35+ Recommendation:</strong>
+              <p><em>"It's never too late to learn!"</em> Step-by-step panic-free guidance designed specifically for beginners & learners above age 35.</p>
+            </div>
+          </div>
+
+          <ul class="pkg-features">
+            <li><i class="fa-solid fa-circle-check text-gold"></i> Complete End-to-End Driving Mastery</li>
+            <li><i class="fa-solid fa-circle-check text-gold"></i> Heavy Surat Traffic, Ring Road & Circle Navigation</li>
+            <li><i class="fa-solid fa-circle-check text-gold"></i> Slope, Bridge & Incline Half-Clutch Mastery</li>
+            <li><i class="fa-solid fa-circle-check text-gold"></i> All Parking: Parallel, Reverse & Basement Ramps</li>
+            <li><i class="fa-solid fa-circle-check text-gold"></i> Single-Hand Steering & Confident Cruising</li>
+            <li><i class="fa-solid fa-circle-check text-gold"></i> 100% Fear Removal & Independent Driving</li>
+          </ul>
+
+          <button class="pkg-cta-btn btn-gold-solid" onclick="selectPackageAndPay(10000, 'Gold Package (10 Days)')">
+            <span>Book Gold Package (₹10,000)</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Available Batch Time Slots (Mon - Fri) -->
+    <section class="section-card">
+      <div class="section-header">
+        <div class="header-pill">SCHEDULE (MON - FRI)</div>
+        <h2 class="section-title">Available Batch Slots & Date</h2>
+        <p class="section-subtitle">Select your preferred training start date and daily 2-hour batch time slot (Monday to Friday only)</p>
+      </div>
+
+      <!-- Interactive Monday to Friday Start Date Picker Card -->
+      <div class="date-selector-card">
+        <div class="date-selector-header">
+          <div class="date-header-left">
+            <i class="fa-regular fa-calendar-check text-gold"></i>
+            <div>
+              <strong>Select Training Start Date</strong>
+              <span class="date-sub-tag">Monday to Friday Only &bull; Weekend Batches Closed</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="date-input-wrap">
+          <label for="scheduleDateInput" class="date-input-label">
+            <i class="fa-solid fa-calendar-day"></i> Choose Starting Date:
+          </label>
+          <input type="date" id="scheduleDateInput" class="custom-date-field" onchange="handleDateChange(this.value)">
+        </div>
+
+        <!-- Quick Upcoming Weekday Shortcut Chips -->
+        <div class="quick-weekdays-row" id="quickWeekdaysContainer">
+          <!-- Dynamically populated via JS with next Mon-Fri options -->
+        </div>
+      </div>
+
+      <div class="slots-grid" id="slotsGrid">
+        
+        <div class="slot-card" data-slot="Morning: 7:30 AM – 9:30 AM" onclick="selectTimeSlot(this)">
+          <div class="slot-time-icon"><i class="fa-solid fa-mountain-sun"></i></div>
+          <div class="slot-details">
+            <span class="slot-tag">Morning Batch 1</span>
+            <strong class="slot-time">7:30 AM – 9:30 AM</strong>
+            <span class="slot-note">Calm morning roads & foundation practice</span>
+          </div>
+          <div class="slot-radio"><i class="fa-solid fa-circle-check"></i></div>
+        </div>
+
+        <div class="slot-card selected" data-slot="Morning: 10:00 AM – 12:00 PM" onclick="selectTimeSlot(this)">
+          <div class="slot-time-icon"><i class="fa-solid fa-sun"></i></div>
+          <div class="slot-details">
+            <span class="slot-tag">Morning Batch 2</span>
+            <strong class="slot-time">10:00 AM – 12:00 PM</strong>
+            <span class="slot-note">Moderate daylight city traffic</span>
+          </div>
+          <div class="slot-radio"><i class="fa-solid fa-circle-check"></i></div>
+        </div>
+
+        <div class="slot-card" data-slot="Afternoon: 1:30 PM – 3:30 PM" onclick="selectTimeSlot(this)">
+          <div class="slot-time-icon"><i class="fa-solid fa-cloud-sun"></i></div>
+          <div class="slot-details">
+            <span class="slot-tag">Afternoon Batch</span>
+            <strong class="slot-time">1:30 PM – 3:30 PM</strong>
+            <span class="slot-note">Open roads & parking maneuver practice</span>
+          </div>
+          <div class="slot-radio"><i class="fa-solid fa-circle-check"></i></div>
+        </div>
+
+        <div class="slot-card" data-slot="Evening: 4:00 PM – 6:00 PM" onclick="selectTimeSlot(this)">
+          <div class="slot-time-icon"><i class="fa-solid fa-city"></i></div>
+          <div class="slot-details">
+            <span class="slot-tag">Evening Batch 1</span>
+            <strong class="slot-time">4:00 PM – 6:00 PM</strong>
+            <span class="slot-note">Peak hour rush & market traffic control</span>
+          </div>
+          <div class="slot-radio"><i class="fa-solid fa-circle-check"></i></div>
+        </div>
+
+        <div class="slot-card" data-slot="Evening: 6:30 PM – 8:30 PM" onclick="selectTimeSlot(this)">
+          <div class="slot-time-icon"><i class="fa-solid fa-moon"></i></div>
+          <div class="slot-details">
+            <span class="slot-tag">Evening Batch 2</span>
+            <strong class="slot-time">6:30 PM – 8:30 PM</strong>
+            <span class="slot-note">Night driving, high beams & night parking</span>
+          </div>
+          <div class="slot-radio"><i class="fa-solid fa-circle-check"></i></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Comprehensive Training Topics Included (8 Modules) -->
+    <section class="section-card">
+      <div class="section-header">
+        <div class="header-pill">CURRICULUM</div>
+        <h2 class="section-title">Comprehensive Training Topics</h2>
+        <p class="section-subtitle">From essential basics to advanced real-world navigation skills</p>
+      </div>
+
+      <div class="curriculum-grid">
+        
+        <div class="topic-item">
+          <div class="topic-icon-wrap"><i class="fa-solid fa-crosshairs"></i></div>
+          <div class="topic-content">
+            <h4>1. Judgment</h4>
+            <p>Accurate left & right side distance estimation, bumper-to-bumper gap control in tight spots.</p>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <div class="topic-icon-wrap"><i class="fa-solid fa-mountain-sun"></i></div>
+          <div class="topic-content">
+            <h4>2. Slope & Incline</h4>
+            <p>Half-clutch hold, hill start without backward roll, flyovers & handbrake release trick.</p>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <div class="topic-icon-wrap"><i class="fa-solid fa-traffic-light"></i></div>
+          <div class="topic-content">
+            <h4>3. Heavy Traffic</h4>
+            <p>Stop-and-go crawl, bumper traffic crawling, clutch saving, smooth gear transitions.</p>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <div class="topic-icon-wrap"><i class="fa-solid fa-rotate-left"></i></div>
+          <div class="topic-content">
+            <h4>4. U-Turn Mastery</h4>
+            <p>Full-lock steering return, sharp cornering, timing signals, blind spot mirror checks.</p>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <div class="topic-icon-wrap"><i class="fa-solid fa-arrow-turn-down"></i></div>
+          <div class="topic-content">
+            <h4>5. Reverse Driving</h4>
+            <p>Side & rearview mirror reversing, straight reverse, curved reverse into narrow gates.</p>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <div class="topic-icon-wrap"><i class="fa-solid fa-circle-notch"></i></div>
+          <div class="topic-content">
+            <h4>6. Circle / Roundabout</h4>
+            <p>Safe entry into traffic roundabouts, lane changing, right of way & clean exit turns.</p>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <div class="topic-icon-wrap"><i class="fa-solid fa-square-parking"></i></div>
+          <div class="topic-content">
+            <h4>7. All Parking Types</h4>
+            <p>Parallel parking, 90-degree mall parking, basement parking, incline parking.</p>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <div class="topic-icon-wrap"><i class="fa-solid fa-hand"></i></div>
+          <div class="topic-content">
+            <h4>8. Single-Hand Drive</h4>
+            <p>Effortless palm steering control, relaxed posture, smooth one-hand cruising.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Instant Slot Reservation Form (WhatsApp Generator) -->
+    <section class="section-card" id="reservationSection">
+      <div class="section-header">
+        <div class="header-pill">QUICK REGISTRATION</div>
+        <h2 class="section-title">Instant Slot Reservation</h2>
+        <p class="section-subtitle">Fill your details below to generate a pre-formatted WhatsApp booking</p>
+      </div>
+
+      <form id="quickBookingForm" onsubmit="handleBookingSubmit(event)">
+        
+        <div class="form-group">
+          <label for="studentName"><i class="fa-solid fa-user"></i> Full Name *</label>
+          <input type="text" id="studentName" placeholder="Enter your full name" required autocomplete="name">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="studentPhone"><i class="fa-solid fa-phone"></i> Phone Number *</label>
+            <input type="tel" id="studentPhone" placeholder="10-digit mobile" required pattern="[0-9]{10}" autocomplete="tel">
+          </div>
+          <div class="form-group">
+            <label for="studentCar"><i class="fa-solid fa-car"></i> Your Car Model *</label>
+            <input type="text" id="studentCar" placeholder="e.g. Swift, Creta, i20 (Manual/Auto)" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="studentAddress"><i class="fa-solid fa-location-dot"></i> Surat Area / Address *</label>
+          <input type="text" id="studentAddress" placeholder="e.g. Vesu / Adajan / Pal / Piplod / Althan, Surat" required oninput="validateSuratLocation(this.value)">
+          <div id="suratLocationFeedback" class="location-feedback-row">
+            <span class="input-helper-text"><i class="fa-solid fa-circle-info"></i> Doorstep training across Surat city only.</span>
+          </div>
+          <!-- Live Non-Surat Warning Banner -->
+          <div id="suratLocationWarning" class="surat-warning-box" style="display: none;">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <div>
+              <strong>📍 Only Surat Location Allowed</strong>
+              <p>Humari car driving training service <strong>sirf Surat city</strong> ke liye available hai. Please Surat ka area mention karein.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="selectedPackageForm"><i class="fa-solid fa-tag"></i> Select Package</label>
+          <select id="selectedPackageForm" onchange="syncPackageSelection(this.value)">
+            <option value="Gold Package (₹10,000 / 10 Days)">Gold Package - ₹10,000 (10 Days) ⭐ Recommended</option>
+            <option value="Silver Package (₹5,000 / 5 Days)">Silver Package - ₹5,000 (5 Days)</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="trainingStartDate"><i class="fa-regular fa-calendar-days"></i> Preferred Start Date *</label>
+            <input type="date" id="trainingStartDate" required onchange="handleFormDateChange(this.value)">
+            <span class="input-helper-text"><i class="fa-solid fa-circle-check"></i> Mon to Fri only (Weekends closed)</span>
+          </div>
+
+          <div class="form-group">
+            <label for="selectedSlotForm"><i class="fa-solid fa-clock"></i> Preferred Batch Slot</label>
+            <select id="selectedSlotForm">
+              <option value="Morning 7:30 AM – 9:30 AM (Batch 1)">7:30 AM – 9:30 AM (Morning 1)</option>
+              <option value="Morning 10:00 AM – 12:00 PM (Batch 2)" selected>10:00 AM – 12:00 PM (Morning 2)</option>
+              <option value="Afternoon 1:30 PM – 3:30 PM (Batch)">1:30 PM – 3:30 PM (Afternoon)</option>
+              <option value="Evening 4:00 PM – 6:00 PM (Batch 1)">4:00 PM – 6:00 PM (Evening 1)</option>
+              <option value="Evening 6:30 PM – 8:30 PM (Batch 2)">6:30 PM – 8:30 PM (Evening 2)</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit-booking" id="btnProceedToPay">
+          <i class="fa-solid fa-lock"></i>
+          <span id="btnProceedText">Proceed to Pay ₹10,000 & Lock Slot ↓</span>
+        </button>
+      </form>
+    </section>
+
+    <!-- 3-Step Booking Process & Payment Setup -->
+    <section class="section-card payment-process-section" id="bookingPaymentSection">
+      <div class="section-header">
+        <div class="header-pill">STEP 2: SCAN & PAY</div>
+        <h2 class="section-title">Scan QR & Confirm Booking</h2>
+        <p class="section-subtitle">Pay training fees via QR code, enter Transaction ID & send all details on WhatsApp</p>
+      </div>
+
+      <!-- Real-time Booking Summary Card (Auto-filled on Step 1) -->
+      <div class="booking-active-summary" id="bookingSummaryCard">
+        <div class="summary-header">
+          <span class="summary-badge"><i class="fa-solid fa-circle-check text-green"></i> <span id="summaryStatusText">Slot Reservation Ready</span></span>
+          <span class="summary-amount" id="summaryAmountText">₹10,000/-</span>
+        </div>
+        <div class="summary-details-grid" id="summaryDetailsGrid">
+          <div class="summary-item"><span class="sum-label">Student:</span> <strong id="sumStudentName">Fill form above</strong></div>
+          <div class="summary-item"><span class="sum-label">Car:</span> <strong id="sumStudentCar">—</strong></div>
+          <div class="summary-item"><span class="sum-label">Plan:</span> <strong id="sumPackage">Gold (10 Days)</strong></div>
+          <div class="summary-item"><span class="sum-label">Date:</span> <strong id="sumStartDate">Next Mon Batch</strong></div>
+          <div class="summary-item full-width"><span class="sum-label">Slot:</span> <strong id="sumSlot">Morning 10:00 AM – 12:00 PM</strong></div>
+          <div class="summary-item full-width"><span class="sum-label">Area:</span> <strong id="sumAddress">Surat City (Doorstep)</strong></div>
+        </div>
+      </div>
+
+      <!-- Step Timeline -->
+      <div class="steps-timeline">
+        
+        <div class="step-card active">
+          <div class="step-badge">STEP 1</div>
+          <div class="step-body">
+            <h4>Scan QR & Pay</h4>
+            <p>Scan the Google Pay QR below or use any UPI app (PhonePe / Paytm / GPay).</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-badge">STEP 2</div>
+          <div class="step-body">
+            <h4>Enter Transaction ID</h4>
+            <p>Type your 12-digit UPI UTR / Transaction ID in the box below.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-badge">STEP 3</div>
+          <div class="step-body">
+            <h4>Direct Send on WhatsApp</h4>
+            <p>Click the green WhatsApp button to instantly send your payment + student details!</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Interactive UPI Payment Terminal -->
+      <div class="upi-terminal-box">
+        <div class="terminal-header">
+          <div class="terminal-title">
+            <i class="fa-solid fa-qrcode text-gold"></i>
+            <span>Scan to Pay via Any UPI App</span>
+          </div>
+          <span class="upi-verified-badge"><i class="fa-solid fa-check-double"></i> Verified UPI</span>
+        </div>
+
+        <!-- Amount Switcher (Silver & Gold Only) -->
+        <div class="amount-selector-row">
+          <button class="amount-pill" data-amount="5000" onclick="setPaymentAmount(5000)">₹5,000 (Silver - 5 Days)</button>
+          <button class="amount-pill active" data-amount="10000" onclick="setPaymentAmount(10000)">₹10,000 (Gold - 10 Days)</button>
+        </div>
+
+        <!-- Clean Square QR Code Display (User Provided QR Image) -->
+        <div class="qr-container">
+          <div class="qr-white-card">
+            <img src="./assets/upi_qr.png" alt="Mayur Rajeshbhai Bhavsar UPI QR Code" class="official-pure-qr-img" id="officialPureQrImg">
+          </div>
+          <div class="qr-meta">
+            <div class="qr-payee">MAYUR RAJESHBHAI BHAVSAR</div>
+            <div class="qr-upi-id" id="displayUpiId">UPI ID: <strong>9879629424@okbizaxis</strong></div>
+            <div class="qr-amount" id="displayAmount">Selected Amount: ₹10,000/-</div>
+          </div>
+        </div>
+
+        <!-- Copy UPI ID Button -->
+        <div class="copy-upi-bar">
+          <div class="upi-code-text">
+            <i class="fa-solid fa-mobile-screen"></i>
+            <span>UPI: <strong id="upiIdCopyText">9879629424@okbizaxis</strong></span>
+          </div>
+          <button class="btn-copy-upi" id="btnCopyUpi" onclick="copyUpiDetails()" type="button">
+            <i class="fa-regular fa-copy"></i> Copy UPI ID
+          </button>
+        </div>
+
+        <!-- Mobile One-Tap UPI Launch Buttons -->
+        <div class="one-tap-upi-section">
+          <span class="one-tap-label">Tap below to pay directly on Mobile UPI:</span>
+          <div class="upi-apps-row">
+            <a href="upi://pay?pa=9879629424@okbizaxis&pn=MAYUR%20RAJESHBHAI%20BHAVSAR&mc=8299&tid=&tr=&tn=Car%20Driving%20Training%20Fees&am=10000&cu=INR" class="upi-app-btn gpay" id="linkGpay">
+              <i class="fa-brands fa-google-pay"></i> GPay
+            </a>
+            <a href="upi://pay?pa=9879629424@okbizaxis&pn=MAYUR%20RAJESHBHAI%20BHAVSAR&mc=8299&tid=&tr=&tn=Car%20Driving%20Training%20Fees&am=10000&cu=INR" class="upi-app-btn phonepe" id="linkPhonepe">
+              <i class="fa-solid fa-wallet"></i> PhonePe
+            </a>
+            <a href="upi://pay?pa=9879629424@okbizaxis&pn=MAYUR%20RAJESHBHAI%20BHAVSAR&mc=8299&tid=&tr=&tn=Car%20Driving%20Training%20Fees&am=10000&cu=INR" class="upi-app-btn paytm" id="linkPaytm">
+              <i class="fa-solid fa-bolt"></i> Paytm
+            </a>
+            <a href="upi://pay?pa=9879629424@okbizaxis&pn=MAYUR%20RAJESHBHAI%20BHAVSAR&mc=8299&tid=&tr=&tn=Car%20Driving%20Training%20Fees&am=10000&cu=INR" class="upi-app-btn any-upi" id="linkAnyUpi">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> Any UPI
+            </a>
+          </div>
+        </div>
+
+        <!-- Transaction ID / UTR Input Box -->
+        <div class="txn-input-section">
+          <div class="txn-input-header">
+            <label for="upiTransactionId">
+              <i class="fa-solid fa-receipt text-gold"></i>
+              <span>Enter UPI Transaction ID / UTR Number *</span>
+            </label>
+            <span class="txn-required-badge"><i class="fa-solid fa-lock"></i> Required to Unlock</span>
+          </div>
+          <div class="txn-input-wrap">
+            <input type="text" id="upiTransactionId" class="txn-input-field" placeholder="Enter 12-digit UTR (e.g. 428190284712)" oninput="handleTxnInput()" autocomplete="off">
+          </div>
+          <p class="txn-help-text">
+            <i class="fa-solid fa-shield-halved text-green"></i> Copy the 12-digit UTR / Ref No. from GPay, PhonePe or Paytm after paying.
+          </p>
+        </div>
+
+        <!-- Direct WhatsApp Send CTA Button (Disabled by default until Txn ID is entered) -->
+        <div class="post-payment-cta">
+          <button type="button" class="btn-whatsapp-screenshot" id="btnSendWhatsappWithTxn" disabled onclick="sendFinalBookingWhatsApp()">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span id="btnWhatsappText">🔒 Enter Transaction ID Above to Unlock</span>
+          </button>
+          <div class="btn-disabled-hint" id="txnBtnHint">
+            <i class="fa-solid fa-lock text-gold"></i> Please enter your UPI Transaction ID above to enable WhatsApp confirmation.
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- Official Social & Review Channels Hub -->
+    <section class="section-card">
+      <div class="section-header">
+        <div class="header-pill">CONNECT & FOLLOW</div>
+        <h2 class="section-title">Official Social & Review Channels</h2>
+        <p class="section-subtitle">Follow for daily driving tips, student transformations & video tutorials</p>
+      </div>
+
+      <div class="social-links-list">
+        
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/mayurbhavsr?igsh=czliemJpNXNtaHY1" target="_blank" rel="noopener" class="social-item instagram-item">
+          <div class="social-icon"><i class="fa-brands fa-instagram"></i></div>
+          <div class="social-info">
+            <div class="social-title">Instagram @mayurbhavsr</div>
+            <div class="social-sub">Daily driving tips, reels & student updates</div>
+          </div>
+          <div class="social-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+        </a>
+
+        <!-- Google Reviews -->
+        <a href="https://g.page/r/CX3h5kU-yjysEBM/review" target="_blank" rel="noopener" class="social-item reviews-item">
+          <div class="social-icon"><i class="fa-solid fa-star"></i></div>
+          <div class="social-info">
+            <div class="social-title">Google 5-Star Reviews</div>
+            <div class="social-sub">Rate your experience & read student reviews</div>
+          </div>
+          <div class="social-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+        </a>
+
+        <!-- Google Maps -->
+        <a href="https://g.co/kgs/Fj7B374" target="_blank" rel="noopener" class="social-item maps-item">
+          <div class="social-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+          <div class="social-info">
+            <div class="social-title">Find on Google Maps (Surat)</div>
+            <div class="social-sub">Locate our center & get driving directions</div>
+          </div>
+          <div class="social-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+        </a>
+
+        <!-- YouTube -->
+        <a href="https://youtube.com/@mayurbhavsar4016?si=zFDKtKVS5qVaReHT" target="_blank" rel="noopener" class="social-item youtube-item">
+          <div class="social-icon"><i class="fa-brands fa-youtube"></i></div>
+          <div class="social-info">
+            <div class="social-title">YouTube Channel (@mayurbhavsar4016)</div>
+            <div class="social-sub">Watch live driving lessons, slope & parking tricks</div>
+          </div>
+          <div class="social-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+        </a>
+
+        <!-- Facebook -->
+        <a href="https://www.facebook.com/share/1HRHuQFzD1/" target="_blank" rel="noopener" class="social-item facebook-item">
+          <div class="social-icon"><i class="fa-brands fa-facebook-f"></i></div>
+          <div class="social-info">
+            <div class="social-title">Facebook Page</div>
+            <div class="social-sub">Join our community of confident Surat drivers</div>
+          </div>
+          <div class="social-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- Student Reviews / Testimonials Highlight -->
+    <section class="section-card reviews-card">
+      <div class="section-header-compact">
+        <div class="stars-row">
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+        </div>
+        <h3>Trusted by 1500+ Surat Students</h3>
+      </div>
+      
+      <div class="testimonial-slider" id="testimonialSlider">
+        <div class="testimonial-card active">
+          <p class="review-text">"I am 42 and had a severe driving phobia in Surat traffic. Mayur Sir's 10 Days Gold Package on my own Baleno completely transformed my confidence. Now I drive anywhere in Vesu and Ring Road traffic alone!"</p>
+          <div class="reviewer-meta">
+            <div class="reviewer-avatar">RK</div>
+            <div>
+              <strong>Rajesh K. (Age 42)</strong>
+              <span>Gold Package Graduate &bull; Vesu, Surat</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <p class="review-text">"The best part is learning on your own car. In ordinary driving schools the trainer has dual brakes so you never get real judgment. Mayur Sir taught slope, parking, and single hand control so smoothly in Adajan!"</p>
+          <div class="reviewer-meta">
+            <div class="reviewer-avatar">PP</div>
+            <div>
+              <strong>Pooja Patel</strong>
+              <span>Hyundai i20 Owner &bull; Adajan, Surat</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <p class="review-text">"13+ years of experience really shows in his patience. Extremely punctual, professional, and clear explanations. Worth every single rupee!"</p>
+          <div class="reviewer-meta">
+            <div class="reviewer-avatar">AS</div>
+            <div>
+              <strong>Amit Shah</strong>
+              <span>Silver Package &bull; Pal, Surat</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-nav">
+        <button class="t-nav-dot active" onclick="showTestimonial(0)"></button>
+        <button class="t-nav-dot" onclick="showTestimonial(1)"></button>
+        <button class="t-nav-dot" onclick="showTestimonial(2)"></button>
+      </div>
+
+      <a href="https://g.page/r/CX3h5kU-yjysEBM/review" target="_blank" rel="noopener" class="btn-write-review">
+        <i class="fa-brands fa-google"></i> Leave a Google 5-Star Review
+      </a>
+    </section>
+
+    <!-- Footer Information -->
+    <footer class="app-footer">
+      <div class="footer-brand">
+        <img src="./assets/logo.png" alt="Mayur Bhavsar Logo" class="footer-logo-img" onerror="if(window.BRAND_LOGO_B64){this.src=window.BRAND_LOGO_B64;}else{this.src='./assets/logo.svg';}">
+        <h4>Mayur Bhavsar</h4>
+        <p>Professional Car Driving Trainer</p>
+      </div>
+
+      <!-- Clickable Direct Contact Links -->
+      <div class="footer-contact-summary">
+        <p>
+          <i class="fa-solid fa-phone"></i>
+          <a href="tel:+919879629424" class="footer-link">+91 9879629424</a>
+        </p>
+        <p>
+          <i class="fa-solid fa-envelope"></i>
+          <a href="mailto:mayurbhavsar12@gmail.com" class="footer-link">mayurbhavsar12@gmail.com</a>
+        </p>
+        <p>
+          <i class="fa-solid fa-location-dot"></i>
+          <span>Exclusively in Surat City &bull; Doorstep Coaching</span>
+        </p>
+        <p>
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>Certified Trainer Since 2012 (13+ Years)</span>
+        </p>
+      </div>
+
+      <!-- Powered By Khushi Creative Tech Attribution -->
+      <div class="kct-powered-wrap">
+        <a href="https://khushicreativetech.in" target="_blank" rel="noopener" class="kct-badge" title="Visit Khushi Creative Tech">
+          <span class="kct-text">Powered by</span>
+          <span class="kct-brand">Khushi Creative Tech <i class="fa-solid fa-arrow-up-right-from-square kct-icon"></i></span>
+        </a>
+      </div>
+
+      <div class="footer-copyright">
+        <p>&copy; 2026 Mayur Bhavsar. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Floating Sticky Bottom Action Bar on Mobile -->
+    <div class="sticky-bottom-bar">
+      <a href="tel:+919879629424" class="sticky-btn call-sticky">
+        <i class="fa-solid fa-phone"></i>
+        <span>Call</span>
+      </a>
+      <a href="https://wa.me/919879629424?text=Hi%20Mayur%20Sir%2C%20I%20am%20from%20Surat%20and%20want%20to%20book%20Car%20Driving%20Training%20on%20my%20own%20car." target="_blank" rel="noopener" class="sticky-btn whatsapp-sticky">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span>WhatsApp</span>
+      </a>
+      <a href="#bookingPaymentSection" class="sticky-btn pay-sticky" onclick="smoothScrollTo('bookingPaymentSection')">
+        <i class="fa-solid fa-bolt"></i>
+        <span>Book & Pay</span>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- QR Code Pop-up Modal -->
+  <div class="modal-overlay" id="qrModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeQrModal()">&times;</button>
+      <div class="modal-header">
+        <i class="fa-solid fa-qrcode text-gold"></i>
+        <h3>Digital Card QR Code</h3>
+      </div>
+      <p class="modal-sub">Scan with any phone camera to instantly open this NFC mini website</p>
+      <div class="modal-qr-frame">
+        <div id="websiteQrCode"></div>
+      </div>
+      <div class="modal-url" id="modalWebsiteUrl">mayurbhavsar-driving.nfc</div>
+      <button class="btn-modal-action" onclick="copyWebsiteUrl()">
+        <i class="fa-regular fa-copy"></i> Copy Website Link
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-notification" id="toast">
+    <i class="fa-solid fa-circle-check toast-icon"></i>
+    <span id="toastMsg">Action completed successfully!</span>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="app.js"></script>
+</body>
+</html>
