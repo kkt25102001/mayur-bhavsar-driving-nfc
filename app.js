@@ -152,15 +152,15 @@ function initDatePicker() {
     firstMonday.setDate(firstMonday.getDate() + (daysUntilNextMon === 0 ? 7 : daysUntilNextMon));
   }
 
-  // Generate the next 6 upcoming Monday dates
+  // Generate all 52 upcoming Monday dates for the entire year
   const mondayDates = [];
   let curMon = new Date(firstMonday);
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 52; i++) {
     mondayDates.push(new Date(curMon));
     curMon.setDate(curMon.getDate() + 7);
   }
 
-  // Populate #trainingStartDate select options in Booking Form
+  // Populate #trainingStartDate select options in Booking Form for the whole year
   if (formDateSelect) {
     formDateSelect.innerHTML = "";
     mondayDates.forEach((mDate, idx) => {
@@ -180,7 +180,7 @@ function initDatePicker() {
   CONFIG.currentDateFormatted = formatDisplayDate(firstMonday);
   CONFIG.studentBooking.startDate = CONFIG.currentDateFormatted;
 
-  // Render quick shortcut Monday pills in Schedule section
+  // Render quick shortcut Monday pills in Schedule section (All weeks scrollable)
   renderMondayBatchChips(mondayDates, initialIso);
 
   // Recalculate and display End Date
@@ -248,16 +248,20 @@ function renderMondayBatchChips(mondayDates, selectedIso) {
   if (!container) return;
 
   container.innerHTML = "";
-  mondayDates.forEach((mDate, idx) => {
+  const currentYear = new Date().getFullYear();
+
+  mondayDates.forEach((mDate) => {
     const iso = formatDateToISO(mDate);
     const dayNum = mDate.getDate();
     const month = mDate.toLocaleDateString('en-US', { month: 'short' });
+    const year = mDate.getFullYear();
+    const yearStr = (year !== currentYear) ? ` '${String(year).slice(2)}` : '';
 
     const pill = document.createElement("button");
     pill.type = "button";
     pill.className = `weekday-pill ${iso === selectedIso ? 'active' : ''}`;
     pill.setAttribute("data-iso", iso);
-    pill.innerHTML = `<i class="fa-solid fa-calendar-check"></i> Mon, ${dayNum} ${month}`;
+    pill.innerHTML = `<i class="fa-solid fa-calendar-check"></i> Mon, ${dayNum} ${month}${yearStr}`;
     
     pill.addEventListener("click", () => {
       handleDateChange(iso);
@@ -281,11 +285,12 @@ function handleDateChange(mondayIso) {
   const formDateSelect = document.getElementById("trainingStartDate");
   if (formDateSelect) formDateSelect.value = mondayIso;
 
-  // Highlight active pill
+  // Highlight active pill & auto scroll into container view
   document.querySelectorAll(".weekday-pill").forEach(p => {
     p.classList.remove("active");
     if (p.getAttribute("data-iso") === mondayIso) {
       p.classList.add("active");
+      p.scrollIntoView({ behavior: 'smooth', inline: 'nearest', block: 'nearest' });
     }
   });
 
