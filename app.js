@@ -1,12 +1,12 @@
 /**
- * Mayur Bhavsar - Professional Car Driving Trainer (Surat)
+ * Mayur Bhavsr - Professional Car Driving Trainer (Surat)
  * NFC Mini Website Interactive Logic
  * Powered by Khushi Creative Tech (khushicreativetech.in)
  */
 
 // Global Configuration
 const CONFIG = {
-  name: "Mayur Bhavsar",
+  name: "Mayur Bhavsr",
   payeeName: "MAYUR RAJESHBHAI BHAVSAR",
   title: "Professional Car Driving Trainer",
   city: "Surat",
@@ -133,74 +133,131 @@ function makeLogoTransparent() {
 }
 
 /**
- * Initialize Monday to Friday Date Picker & Quick Weekday Chips
+ * Initialize Monday-Only Batch Picker & Quick Monday Shortcut Chips
  */
 function initDatePicker() {
-  const scheduleInput = document.getElementById("scheduleDateInput");
-  const formDateInput = document.getElementById("trainingStartDate");
+  const formDateSelect = document.getElementById("trainingStartDate");
 
+  // Find next upcoming Monday
   const today = new Date();
-  const minDate = new Date(today);
-  minDate.setDate(minDate.getDate() + 1); // Start from tomorrow
+  let firstMonday = new Date(today);
+  const dayOfWeek = firstMonday.getDay(); // 0 = Sun, 1 = Mon, 6 = Sat
 
-  const minFormatted = formatDateToISO(minDate);
-
-  if (scheduleInput) scheduleInput.min = minFormatted;
-  if (formDateInput) formDateInput.min = minFormatted;
-
-  // Find the first valid weekday (Mon-Fri)
-  let initialDate = new Date(minDate);
-  const day = initialDate.getDay();
-  if (day === 0) { // Sunday -> move to Monday
-    initialDate.setDate(initialDate.getDate() + 1);
-  } else if (day === 6) { // Saturday -> move to Monday
-    initialDate.setDate(initialDate.getDate() + 2);
+  if (dayOfWeek === 1) { // Today is Monday
+    if (firstMonday.getHours() >= 17) {
+      firstMonday.setDate(firstMonday.getDate() + 7); // Next Monday if evening
+    }
+  } else {
+    const daysUntilNextMon = (8 - dayOfWeek) % 7;
+    firstMonday.setDate(firstMonday.getDate() + (daysUntilNextMon === 0 ? 7 : daysUntilNextMon));
   }
 
-  const initialIso = formatDateToISO(initialDate);
+  // Generate the next 6 upcoming Monday dates
+  const mondayDates = [];
+  let curMon = new Date(firstMonday);
+  for (let i = 0; i < 6; i++) {
+    mondayDates.push(new Date(curMon));
+    curMon.setDate(curMon.getDate() + 7);
+  }
+
+  // Populate #trainingStartDate select options in Booking Form
+  if (formDateSelect) {
+    formDateSelect.innerHTML = "";
+    mondayDates.forEach((mDate, idx) => {
+      const iso = formatDateToISO(mDate);
+      const fullDisplay = formatDisplayDate(mDate);
+      const option = document.createElement("option");
+      option.value = iso;
+      option.textContent = `${fullDisplay} (Monday Batch)`;
+      if (idx === 0) option.selected = true;
+      formDateSelect.appendChild(option);
+    });
+  }
+
+  // Set initial Monday
+  const initialIso = formatDateToISO(firstMonday);
   CONFIG.currentDate = initialIso;
-  CONFIG.currentDateFormatted = formatDisplayDate(initialDate);
+  CONFIG.currentDateFormatted = formatDisplayDate(firstMonday);
   CONFIG.studentBooking.startDate = CONFIG.currentDateFormatted;
 
-  if (scheduleInput) scheduleInput.value = initialIso;
-  if (formDateInput) formDateInput.value = initialIso;
+  // Render quick shortcut Monday pills in Schedule section
+  renderMondayBatchChips(mondayDates, initialIso);
 
-  const sumStartDate = document.getElementById("sumStartDate");
-  if (sumStartDate) sumStartDate.textContent = CONFIG.currentDateFormatted;
-
-  renderQuickWeekdayChips(initialDate);
+  // Recalculate and display End Date
+  updateBatchDatesDisplay();
 }
 
 /**
- * Generate 5 upcoming Monday to Friday shortcut pills
+ * Calculate Friday End Date based on Package Duration
+ * - Silver (5 Days): Friday of the same week (Start Monday + 4 Days)
+ * - Gold (10 Days): Friday of the second week (Start Monday + 11 Days: 2 continuous Mon-Fri weeks)
  */
-function renderQuickWeekdayChips(startDate) {
+function calculateFridayEndDate(startDateIso, amount) {
+  const start = new Date(startDateIso + "T00:00:00");
+  const isFiveDays = (amount === 5000);
+  
+  // 5 Days = Mon to Fri (4 days added); 10 Days = 2 Weeks Mon-Fri (11 days added)
+  const daysToAdd = isFiveDays ? 4 : 11;
+  const endDate = new Date(start);
+  endDate.setDate(endDate.getDate() + daysToAdd);
+
+  return {
+    iso: formatDateToISO(endDate),
+    formatted: formatDisplayDate(endDate),
+    shortFormatted: endDate.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' }),
+    durationTag: isFiveDays ? "5 Days (Mon to Fri)" : "10 Days (2 Weeks Mon-Fri)"
+  };
+}
+
+/**
+ * Update Start Monday & Calculated End Friday across all UI elements
+ */
+function updateBatchDatesDisplay() {
+  const currentIso = CONFIG.currentDate || formatDateToISO(new Date());
+  const amount = CONFIG.currentAmount || 10000;
+  const endInfo = calculateFridayEndDate(currentIso, amount);
+
+  // Update Schedule Section Box
+  const displayStart = document.getElementById("displayStartMonDate");
+  const displayEnd = document.getElementById("displayEndFriDate");
+  if (displayStart) displayStart.textContent = CONFIG.currentDateFormatted;
+  if (displayEnd) displayEnd.textContent = endInfo.formatted;
+
+  // Update Booking Form Fields
+  const trainingEndDateInput = document.getElementById("trainingEndDate");
+  const endDateDurationTag = document.getElementById("endDateDurationTag");
+  if (trainingEndDateInput) trainingEndDateInput.value = endInfo.formatted;
+  if (endDateDurationTag) endDateDurationTag.innerHTML = `<i class="fa-solid fa-clock"></i> ${endInfo.durationTag}`;
+
+  // Update Summary Card
+  const sumStartDate = document.getElementById("sumStartDate");
+  const sumEndDate = document.getElementById("sumEndDate");
+  if (sumStartDate) sumStartDate.textContent = CONFIG.currentDateFormatted;
+  if (sumEndDate) sumEndDate.textContent = endInfo.formatted;
+
+  // Update State
+  CONFIG.studentBooking.startDate = CONFIG.currentDateFormatted;
+  CONFIG.studentBooking.endDate = endInfo.formatted;
+}
+
+/**
+ * Generate Upcoming Monday Shortcut Pills in Schedule Section
+ */
+function renderMondayBatchChips(mondayDates, selectedIso) {
   const container = document.getElementById("quickWeekdaysContainer");
   if (!container) return;
 
   container.innerHTML = "";
-  const weekdays = [];
-  let cur = new Date(startDate);
-
-  while (weekdays.length < 5) {
-    const d = cur.getDay();
-    if (d >= 1 && d <= 5) { // Mon to Fri
-      weekdays.push(new Date(cur));
-    }
-    cur.setDate(cur.getDate() + 1);
-  }
-
-  weekdays.forEach((wDate, idx) => {
-    const iso = formatDateToISO(wDate);
-    const dayName = wDate.toLocaleDateString('en-US', { weekday: 'short' });
-    const dayNum = wDate.getDate();
-    const month = wDate.toLocaleDateString('en-US', { month: 'short' });
+  mondayDates.forEach((mDate, idx) => {
+    const iso = formatDateToISO(mDate);
+    const dayNum = mDate.getDate();
+    const month = mDate.toLocaleDateString('en-US', { month: 'short' });
 
     const pill = document.createElement("button");
     pill.type = "button";
-    pill.className = `weekday-pill ${idx === 0 ? 'active' : ''}`;
+    pill.className = `weekday-pill ${iso === selectedIso ? 'active' : ''}`;
     pill.setAttribute("data-iso", iso);
-    pill.innerHTML = `<i class="fa-regular fa-calendar"></i> ${dayName}, ${dayNum} ${month}`;
+    pill.innerHTML = `<i class="fa-solid fa-calendar-check"></i> Mon, ${dayNum} ${month}`;
     
     pill.addEventListener("click", () => {
       handleDateChange(iso);
@@ -211,52 +268,33 @@ function renderQuickWeekdayChips(startDate) {
 }
 
 /**
- * Handle Date Picker changes with strict Monday to Friday enforcement
+ * Handle Start Date Change (Locked to Mondays)
  */
-function handleDateChange(isoValue) {
-  if (!isoValue) return;
+function handleDateChange(mondayIso) {
+  if (!mondayIso) return;
 
-  const pickedDate = new Date(isoValue + "T00:00:00");
-  const dayOfWeek = pickedDate.getDay(); // 0: Sun, 6: Sat
+  const pickedDate = new Date(mondayIso + "T00:00:00");
+  CONFIG.currentDate = mondayIso;
+  CONFIG.currentDateFormatted = formatDisplayDate(pickedDate);
 
-  let finalDate = new Date(pickedDate);
+  // Sync Form Select
+  const formDateSelect = document.getElementById("trainingStartDate");
+  if (formDateSelect) formDateSelect.value = mondayIso;
 
-  if (dayOfWeek === 0 || dayOfWeek === 6) { // Weekend selected!
-    const daysToAdd = (dayOfWeek === 6) ? 2 : 1;
-    finalDate.setDate(finalDate.getDate() + daysToAdd);
-    const correctedIso = formatDateToISO(finalDate);
-
-    showToast(`⚠️ Batches run Mon to Fri only. Adjusted to Monday (${formatDisplayDate(finalDate)})`);
-    isoValue = correctedIso;
-  }
-
-  CONFIG.currentDate = isoValue;
-  CONFIG.currentDateFormatted = formatDisplayDate(finalDate);
-  CONFIG.studentBooking.startDate = CONFIG.currentDateFormatted;
-
-  // Sync inputs
-  const scheduleInput = document.getElementById("scheduleDateInput");
-  const formDateInput = document.getElementById("trainingStartDate");
-
-  if (scheduleInput) scheduleInput.value = isoValue;
-  if (formDateInput) formDateInput.value = isoValue;
-
-  const sumStartDate = document.getElementById("sumStartDate");
-  if (sumStartDate) sumStartDate.textContent = CONFIG.currentDateFormatted;
-
-  // Highlight active pill if matches
+  // Highlight active pill
   document.querySelectorAll(".weekday-pill").forEach(p => {
     p.classList.remove("active");
-    if (p.getAttribute("data-iso") === isoValue) {
+    if (p.getAttribute("data-iso") === mondayIso) {
       p.classList.add("active");
     }
   });
 
-  showToast(`Start Date: ${CONFIG.currentDateFormatted}`);
+  updateBatchDatesDisplay();
+  showToast(`Batch Start: ${CONFIG.currentDateFormatted}`);
 }
 
-function handleFormDateChange(isoValue) {
-  handleDateChange(isoValue);
+function handleFormDateChange(mondayIso) {
+  handleDateChange(mondayIso);
 }
 
 /**
@@ -336,19 +374,21 @@ function setPaymentAmount(amount) {
   const packageSelect = document.getElementById("selectedPackageForm");
   const sumPackage = document.getElementById("sumPackage");
   if (amount === 5000) {
-    CONFIG.currentPackage = "Silver Package (₹5,000 / 5 Days)";
+    CONFIG.currentPackage = "Silver Package (₹5,000 / 5 Days: Mon to Fri)";
     CONFIG.studentBooking.package = CONFIG.currentPackage;
     if (packageSelect) packageSelect.value = "Silver Package (₹5,000 / 5 Days)";
-    if (sumPackage) sumPackage.textContent = "Silver (5 Days)";
+    if (sumPackage) sumPackage.textContent = "Silver Package (5 Days)";
   } else {
-    CONFIG.currentPackage = "Gold Package (₹10,000 / 10 Days)";
+    CONFIG.currentPackage = "Gold Package (₹10,000 / 10 Days: 2 Weeks Mon-Fri)";
     CONFIG.studentBooking.package = CONFIG.currentPackage;
     if (packageSelect) packageSelect.value = "Gold Package (₹10,000 / 10 Days)";
-    if (sumPackage) sumPackage.textContent = "Gold (10 Days)";
+    if (sumPackage) sumPackage.textContent = "Gold Package (10 Days)";
   }
 
+  // Recalculate End Date for the newly selected package duration
+  updateBatchDatesDisplay();
   initUpiQrCode(amount);
-  showToast(`Payment amount set to ₹${amount.toLocaleString("en-IN")}/-`);
+  showToast(`Package set to ${amount === 5000 ? 'Silver ₹5,000 (5 Days)' : 'Gold ₹10,000 (10 Days)'}`);
 }
 
 /**
@@ -403,8 +443,6 @@ function selectTimeSlot(slotElement) {
  * Sync form package selection with payment terminal
  */
 function syncPackageSelection(val) {
-  CONFIG.currentPackage = val;
-  CONFIG.studentBooking.package = val;
   if (val.includes("5,000") || val.includes("Silver")) {
     setPaymentAmount(5000);
   } else {
@@ -447,95 +485,6 @@ function fallbackCopy(text) {
 }
 
 /**
- * Surat City Location Validation
- */
-const SURAT_AREAS = [
-  "surat", "vesu", "adajan", "pal", "piplod", "althan", "city light", "citylight",
-  "varachha", "katargam", "vip road", "ghod dod", "athwa", "athwalines", "athwagate",
-  "rander", "jahangirpura", "dindoli", "udhna", "bhatar", "dumas", "magdalla",
-  "nana varachha", "mota varachha", "amroli", "sarthana", "bhestan", "pandesara",
-  "pande sara", "kamrej", "punagam", "ved road", "dabholi", "olpad", "godadara",
-  "parvat patiya", "hazira", "singanpore", "ring road", "textile market", "bhimrad",
-  "sultanabad", "bhatha", "gaviyar", "ichhapore", "sachin", "khatodara", "mahidharpura"
-];
-
-const NON_SURAT_CITIES = [
-  "ahmedabad", "amdavad", "vadodara", "baroda", "rajkot", "bhavnagar", "jamnagar",
-  "gandhinagar", "junagadh", "anand", "nadiad", "navsari", "bharuch", "ankleshwar",
-  "vapi", "valsad", "mumbai", "bombay", "pune", "delhi", "noida", "gurgaon",
-  "bangalore", "bengaluru", "hyderabad", "kolkata", "chennai", "jaipur", "indore",
-  "bhopal", "bardoli", "vyara", "mandvi", "songadh", "outside surat", "surat ke bahar"
-];
-
-function validateSuratLocation(val) {
-  const warningBox = document.getElementById("suratLocationWarning");
-  const feedbackRow = document.getElementById("suratLocationFeedback");
-  const inputElem = document.getElementById("studentAddress");
-
-  if (!val || val.trim().length === 0) {
-    if (warningBox) warningBox.style.display = "none";
-    if (feedbackRow) feedbackRow.innerHTML = '<span class="input-helper-text"><i class="fa-solid fa-circle-info"></i> Doorstep training across Surat city only.</span>';
-    if (inputElem) inputElem.style.borderColor = "";
-    return true;
-  }
-
-  const clean = val.toLowerCase().trim();
-
-  // Check if explicit non-surat city is entered
-  const isExplicitOutside = NON_SURAT_CITIES.some(city => clean.includes(city));
-
-  if (isExplicitOutside) {
-    if (warningBox) {
-      warningBox.style.display = "flex";
-      warningBox.innerHTML = `
-        <i class="fa-solid fa-triangle-exclamation"></i>
-        <div>
-          <strong>📍 Only Surat Location Allowed / सिर्फ सूरत में सर्विस उपलब्ध है</strong>
-          <p>Humari car driving training service <strong>sirf Surat city</strong> ke liye available hai. Surat ke bahar training provide nahi hoti.</p>
-        </div>
-      `;
-    }
-    if (feedbackRow) feedbackRow.innerHTML = '';
-    if (inputElem) inputElem.style.borderColor = "#EF4444";
-    return false;
-  }
-
-  // Check if known Surat locality or 'surat' is present
-  const isSuratMatch = SURAT_AREAS.some(area => clean.includes(area));
-
-  if (isSuratMatch) {
-    if (warningBox) warningBox.style.display = "none";
-    if (feedbackRow) {
-      feedbackRow.innerHTML = '<span class="location-valid-tag"><i class="fa-solid fa-circle-check text-green"></i> Verified Surat Area &bull; Doorstep coaching available!</span>';
-    }
-    if (inputElem) inputElem.style.borderColor = "#10B981";
-    return true;
-  }
-
-  // If text is entered but Surat is not mentioned yet
-  if (clean.length >= 3) {
-    if (warningBox) {
-      warningBox.style.display = "flex";
-      warningBox.innerHTML = `
-        <i class="fa-solid fa-triangle-exclamation"></i>
-        <div>
-          <strong>📍 Only Surat Location Allowed</strong>
-          <p>Training exclusively within Surat city. Please specify your Surat locality (e.g., <em>Vesu, Adajan, Pal, Piplod, Surat</em>).</p>
-        </div>
-      `;
-    }
-    if (feedbackRow) feedbackRow.innerHTML = '';
-    if (inputElem) inputElem.style.borderColor = "#F59E0B";
-    return true;
-  } else {
-    if (warningBox) warningBox.style.display = "none";
-    if (feedbackRow) feedbackRow.innerHTML = '<span class="input-helper-text"><i class="fa-solid fa-circle-info"></i> Doorstep training across Surat city only.</span>';
-    if (inputElem) inputElem.style.borderColor = "";
-    return true;
-  }
-}
-
-/**
  * Step 1: Interactive Booking Form Submit -> Locks Details & Takes User to QR Payment Section
  */
 function handleBookingSubmit(event) {
@@ -544,42 +493,35 @@ function handleBookingSubmit(event) {
   const name = document.getElementById("studentName")?.value.trim();
   const phone = document.getElementById("studentPhone")?.value.trim();
   const car = document.getElementById("studentCar")?.value.trim();
-  const address = document.getElementById("studentAddress")?.value.trim();
+  const email = document.getElementById("studentEmail")?.value.trim();
   const pkg = document.getElementById("selectedPackageForm")?.value || CONFIG.currentPackage;
   const slot = document.getElementById("selectedSlotForm")?.value || CONFIG.currentSlot;
-  const startDate = CONFIG.currentDateFormatted || document.getElementById("trainingStartDate")?.value || "Next Monday Batch";
+  const startDate = CONFIG.currentDateFormatted || "Next Monday Batch";
+  const amount = (pkg.includes("5,000") || pkg.includes("Silver")) ? 5000 : 10000;
+  const endInfo = calculateFridayEndDate(CONFIG.currentDate, amount);
 
-  if (!name || !phone || !car || !address) {
+  if (!name || !phone || !car || !email) {
     showToast("Please fill all required student details");
     return;
   }
 
-  // Strict Surat Location Verification
-  const cleanAddr = address.toLowerCase().trim();
-  const isExplicitOutside = NON_SURAT_CITIES.some(city => cleanAddr.includes(city));
-  if (isExplicitOutside) {
-    showToast("⚠️ Service is only available in Surat City!");
-    const warningBox = document.getElementById("suratLocationWarning");
-    if (warningBox) {
-      warningBox.style.display = "flex";
-      warningBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-    document.getElementById("studentAddress")?.focus();
+  // Basic email validation
+  if (!email.includes("@") || !email.includes(".")) {
+    showToast("⚠️ Please enter a valid email address");
+    document.getElementById("studentEmail")?.focus();
     return;
   }
-
-  // Determine amount
-  const amount = (pkg.includes("5,000") || pkg.includes("Silver")) ? 5000 : 10000;
 
   // Save to CONFIG.studentBooking state
   CONFIG.studentBooking = {
     name,
     phone,
     car,
-    address,
+    email,
     package: pkg,
     slot,
     startDate,
+    endDate: endInfo.formatted,
     amount,
     txnId: document.getElementById("upiTransactionId")?.value.trim() || ""
   };
@@ -590,19 +532,21 @@ function handleBookingSubmit(event) {
   // Update Real-time Summary Card in QR Payment Section
   const sumStudentName = document.getElementById("sumStudentName");
   const sumStudentCar = document.getElementById("sumStudentCar");
+  const sumStudentEmail = document.getElementById("sumStudentEmail");
   const sumPackage = document.getElementById("sumPackage");
   const sumStartDate = document.getElementById("sumStartDate");
+  const sumEndDate = document.getElementById("sumEndDate");
   const sumSlot = document.getElementById("sumSlot");
-  const sumAddress = document.getElementById("sumAddress");
   const summaryAmountText = document.getElementById("summaryAmountText");
   const summaryStatusText = document.getElementById("summaryStatusText");
 
   if (sumStudentName) sumStudentName.textContent = name;
   if (sumStudentCar) sumStudentCar.textContent = car;
-  if (sumPackage) sumPackage.textContent = amount === 5000 ? "Silver (5 Days)" : "Gold (10 Days)";
+  if (sumStudentEmail) sumStudentEmail.textContent = email;
+  if (sumPackage) sumPackage.textContent = amount === 5000 ? "Silver Package (5 Days)" : "Gold Package (10 Days)";
   if (sumStartDate) sumStartDate.textContent = startDate;
+  if (sumEndDate) sumEndDate.textContent = endInfo.formatted;
   if (sumSlot) sumSlot.textContent = slot;
-  if (sumAddress) sumAddress.textContent = address;
   if (summaryAmountText) summaryAmountText.textContent = `₹${amount.toLocaleString("en-IN")}/-`;
   if (summaryStatusText) summaryStatusText.textContent = `Slot Locked for ${name.split(" ")[0]}`;
 
@@ -639,7 +583,9 @@ function handleTxnInput() {
 
   // Minimum required length for Transaction ID / UTR (typically 6-12 digits)
   if (txnVal.length >= 4) {
-    if (btn) btn.disabled = false;
+    if (btn) {
+      btn.classList.remove("locked");
+    }
     if (txnField) txnField.classList.add("valid");
     if (badge) {
       badge.classList.add("valid");
@@ -649,10 +595,12 @@ function handleTxnInput() {
       btnText.textContent = `✅ Send Payment (UTR: ${txnVal}) & Booking Details on WhatsApp`;
     }
     if (hint) {
-      hint.innerHTML = `<span class="hint-unlocked"><i class="fa-solid fa-circle-check text-green"></i> Transaction ID linked! Tap button above to send on WhatsApp.</span>`;
+      hint.innerHTML = `<span class="hint-unlocked"><i class="fa-solid fa-circle-check text-green"></i> Transaction ID linked! Click button above to open WhatsApp.</span>`;
     }
   } else {
-    if (btn) btn.disabled = true;
+    if (btn) {
+      btn.classList.add("locked");
+    }
     if (txnField) txnField.classList.remove("valid");
     if (badge) {
       badge.classList.remove("valid");
@@ -689,14 +637,15 @@ function sendFinalBookingWhatsApp() {
   const name = CONFIG.studentBooking.name || document.getElementById("studentName")?.value.trim() || "";
   const phone = CONFIG.studentBooking.phone || document.getElementById("studentPhone")?.value.trim() || "";
   const car = CONFIG.studentBooking.car || document.getElementById("studentCar")?.value.trim() || "";
-  const address = CONFIG.studentBooking.address || document.getElementById("studentAddress")?.value.trim() || "";
+  const email = CONFIG.studentBooking.email || document.getElementById("studentEmail")?.value.trim() || "";
   const pkg = CONFIG.studentBooking.package || document.getElementById("selectedPackageForm")?.value || CONFIG.currentPackage;
   const slot = CONFIG.studentBooking.slot || document.getElementById("selectedSlotForm")?.value || CONFIG.currentSlot;
   const startDate = CONFIG.studentBooking.startDate || CONFIG.currentDateFormatted || "Next Monday Batch";
+  const endDate = CONFIG.studentBooking.endDate || document.getElementById("trainingEndDate")?.value || "Calculated Friday";
   const amount = CONFIG.currentAmount || 10000;
 
   // If student hasn't entered name or phone, smoothly guide them to registration form
-  if (!name || !phone || !car || !address) {
+  if (!name || !phone || !car || !email) {
     showToast("Please fill your student details in the form above first!");
     smoothScrollTo("reservationSection");
     setTimeout(() => {
@@ -706,7 +655,7 @@ function sendFinalBookingWhatsApp() {
   }
 
   // Construct comprehensive formatted WhatsApp message
-  const pkgTierName = amount === 5000 ? "Silver Package - ₹5,000 (5 Days)" : "Gold Package - ₹10,000 (10 Days Intensive)";
+  const pkgTierName = amount === 5000 ? "Silver Package - ₹5,000 (5 Days: Mon to Fri)" : "Gold Package - ₹10,000 (10 Days: 2 Weeks Mon-Fri)";
 
   const message = `*🚗 NEW CAR DRIVING TRAINING BOOKING & PAYMENT (SURAT)*
 ━━━━━━━━━━━━━━━━━━━━━
@@ -718,10 +667,11 @@ function sendFinalBookingWhatsApp() {
 • *Full Name:* ${name}
 • *Phone Number:* ${phone}
 • *Car Model:* ${car}
-• *Surat Area / Address:* ${address}
+• *Email ID:* ${email}
 • *Selected Package:* ${pkg}
-• *Training Start Date:* ${startDate} (Mon-Fri)
-• *Preferred Batch Slot:* ${slot}
+• *Training Start Date (Monday):* ${startDate}
+• *Training End Date (Friday):* ${endDate}
+• *Daily Batch Slot:* ${slot}
 ━━━━━━━━━━━━━━━━━━━━━
 📍 *Doorstep Personal Coaching across Surat City*
 _I have completed the UPI payment. Please verify the transaction, confirm my slot lock, and share the training schedule!_`;
@@ -742,8 +692,8 @@ function downloadVCard() {
     "BEGIN:VCARD",
     "VERSION:3.0",
     `FN:${CONFIG.name}`,
-    `N:Bhavsar;Mayur;;;`,
-    `ORG:Mayur Bhavsar - Car Driving Professional Trainer`,
+    `N:Bhavsr;Mayur;;;`,
+    `ORG:Mayur Bhavsr - Car Driving Professional Trainer`,
     `TITLE:Professional Car Driving Trainer (Surat)`,
     `TEL;TYPE=CELL,VOICE:${CONFIG.countryCode}${CONFIG.phone}`,
     `EMAIL;TYPE=INTERNET,WORK:${CONFIG.email}`,
@@ -758,7 +708,7 @@ function downloadVCard() {
   
   const link = document.createElement("a");
   link.href = url;
-  link.setAttribute("download", "Mayur_Bhavsar_Driving_Trainer.vcf");
+  link.setAttribute("download", "Mayur_Bhavsr_Driving_Trainer.vcf");
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -773,8 +723,8 @@ function downloadVCard() {
  */
 async function shareDigitalCard() {
   const shareData = {
-    title: "Mayur Bhavsar - Car Driving Professional Trainer (Surat)",
-    text: "Learn to Drive on Your Own Car with Mayur Bhavsar in Surat (13+ Years Experience). Connect & Book your batch slot!",
+    title: "Mayur Bhavsr - Car Driving Professional Trainer (Surat)",
+    text: "Learn to Drive on Your Own Car with Mayur Bhavsr in Surat (13+ Years Experience). Connect & Book your batch slot!",
     url: window.location.href
   };
 
@@ -800,7 +750,7 @@ function initWebsiteQrCode() {
   if (!container) return;
 
   container.innerHTML = "";
-  const currentUrl = window.location.href || "https://mayurbhavsar.driving.card";
+  const currentUrl = window.location.href || "https://mayurbhavsr.driving.card";
 
   const urlDisplay = document.getElementById("modalWebsiteUrl");
   if (urlDisplay) urlDisplay.textContent = currentUrl;

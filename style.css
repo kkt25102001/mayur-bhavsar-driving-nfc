@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Mayur Bhavsar - Car Driving Professional Trainer (Surat)
+   Mayur Bhavsr - Car Driving Professional Trainer (Surat)
    NFC Mini Website Stylesheet
    Designed for Mobile-First NFC Tap & Desktop Preview
    Colors: Obsidian Dark (#090B0E), Racing Gold (#FFB800), Signal Green (#10B981)
@@ -956,41 +956,55 @@ body {
   color: var(--gold-light);
 }
 
-.date-input-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-bottom: 8px;
-}
-
-.date-input-label {
-  font-family: var(--font-heading);
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: #CBD5E1;
+/* Dynamic Batch Schedule Box */
+.active-batch-schedule-box {
   display: flex;
   align-items: center;
-  gap: 5px;
-}
-
-.custom-date-field {
-  box-sizing: border-box;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid var(--border-gold);
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 184, 0, 0.3);
   border-radius: var(--radius-sm);
-  padding: 8px 10px;
-  color: #FFFFFF;
-  font-family: var(--font-body);
-  font-size: 0.82rem;
-  font-weight: 600;
-  outline: none;
-  transition: all 0.2s ease;
+  padding: 9px 12px;
+  margin: 8px 0 10px 0;
+  gap: 8px;
 }
 
-.custom-date-field:focus {
-  border-color: var(--gold-primary);
-  box-shadow: 0 0 10px rgba(255, 184, 0, 0.25);
+.batch-date-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.batch-date-lbl {
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #94A3B8;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.batch-date-val {
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.batch-arrow-divider {
+  color: var(--gold-primary);
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.calculated-end-date {
+  background: rgba(16, 185, 129, 0.08) !important;
+  border-color: rgba(16, 185, 129, 0.4) !important;
+  color: var(--green-light) !important;
+  font-weight: 700 !important;
+  cursor: default;
 }
 
 /* Quick Weekday Shortcut Chips */
@@ -1644,22 +1658,27 @@ body {
   font-size: 1.15rem;
 }
 
-.btn-whatsapp-screenshot:disabled {
-  background: rgba(255, 255, 255, 0.06) !important;
-  color: #64748B !important;
-  border: 1px dashed rgba(255, 255, 255, 0.15) !important;
+.btn-whatsapp-screenshot.locked {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #94A3B8 !important;
+  border: 1.5px dashed rgba(255, 184, 0, 0.35) !important;
   box-shadow: none !important;
-  cursor: not-allowed !important;
-  transform: none !important;
-  filter: grayscale(0.9);
-  opacity: 0.75;
+  cursor: pointer !important;
+  opacity: 0.85;
 }
 
-.btn-whatsapp-screenshot:disabled i {
-  color: #64748B !important;
+.btn-whatsapp-screenshot.locked i {
+  color: var(--gold-primary) !important;
 }
 
-.btn-whatsapp-screenshot:not(:disabled) {
+.btn-whatsapp-screenshot.locked:hover {
+  background: rgba(255, 184, 0, 0.12) !important;
+  border-color: var(--gold-primary) !important;
+  color: #FFFFFF !important;
+  transform: translateY(-2px);
+}
+
+.btn-whatsapp-screenshot:not(.locked) {
   background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important;
   color: #FFFFFF !important;
   box-shadow: 0 4px 20px rgba(37, 211, 102, 0.5) !important;
@@ -1672,7 +1691,7 @@ body {
   100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); transform: scale(1); }
 }
 
-.btn-whatsapp-screenshot:not(:disabled):hover {
+.btn-whatsapp-screenshot:not(.locked):hover {
   background: linear-gradient(135deg, #28E16F 0%, #149C8C 100%) !important;
   transform: translateY(-2px) scale(1.02);
   box-shadow: 0 6px 24px rgba(37, 211, 102, 0.65) !important;

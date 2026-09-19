@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Mayur Bhavsar | Professional Car Driving Trainer (Surat)</title>
+  <title>Mayur Bhavsr | Professional Car Driving Trainer (Surat)</title>
   
   <!-- SEO Meta Tags -->
-  <meta name="description" content="Mayur Bhavsar - Professional Car Driving Trainer in Surat since 2012 (13+ Years Experience). Learn to drive on your own car with 100% confidence. Doorstep coaching across Surat.">
-  <meta name="keywords" content="Mayur Bhavsar, Car Driving Trainer Surat, Learn Driving Own Car Surat, Driving Classes Surat, Personal Driving Coach Adajan Vesu Pal, Driving School Surat">
-  <meta name="author" content="Mayur Bhavsar | Powered by Khushi Creative Tech">
+  <meta name="description" content="Mayur Bhavsr - Professional Car Driving Trainer in Surat since 2012 (13+ Years Experience). Learn to drive on your own car with 100% confidence. Doorstep coaching across Surat.">
+  <meta name="keywords" content="Mayur Bhavsr, Car Driving Trainer Surat, Learn Driving Own Car Surat, Driving Classes Surat, Personal Driving Coach Adajan Vesu Pal, Driving School Surat">
+  <meta name="author" content="Mayur Bhavsr | Powered by Khushi Creative Tech">
   
   <!-- Open Graph / WhatsApp Sharing -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Mayur Bhavsar - Car Driving Professional Trainer (Surat)">
+  <meta property="og:title" content="Mayur Bhavsr - Car Driving Professional Trainer (Surat)">
   <meta property="og:description" content="Learn to Drive on Your Own Car. Doorstep coaching in Surat. 13+ Years Experience. Book your batch slot now!">
   <meta property="og:image" content="./assets/logo.png">
   <meta name="theme-color" content="#0B0D12">
@@ -54,10 +54,10 @@
         <span class="status-text">Bookings Open &bull; Surat Batches</span>
       </div>
       <div class="top-actions">
-        <button class="icon-btn" id="btnShareCard" title="Share Digital Card" aria-label="Share Card">
+        <button class="icon-btn" id="btnShareCard" title="Share Digital Card" aria-label="Share Card" onclick="shareDigitalCard()">
           <i class="fa-solid fa-share-nodes"></i>
         </button>
-        <button class="icon-btn" id="btnQrCodeModal" title="View QR Code" aria-label="View QR Code">
+        <button class="icon-btn" id="btnQrCodeModal" title="View QR Code" aria-label="View QR Code" onclick="openQrModal()">
           <i class="fa-solid fa-qrcode"></i>
         </button>
       </div>
@@ -69,11 +69,11 @@
       <!-- Luxury Brand Logo Showcase Card -->
       <div class="hero-brand-card">
         <div class="brand-card-glow"></div>
-        <img src="./assets/logo.png" alt="Mayur Bhavsar Car Driving Professional Trainer Logo" class="brand-logo-img" id="mainBrandLogo" onerror="if(window.BRAND_LOGO_B64){this.src=window.BRAND_LOGO_B64;}else{this.src='./assets/logo.svg';}">
+        <img src="./assets/logo.png" alt="Mayur Bhavsr Car Driving Professional Trainer Logo" class="brand-logo-img" id="mainBrandLogo" onerror="if(window.BRAND_LOGO_B64){this.src=window.BRAND_LOGO_B64;}else{this.src='./assets/logo.svg';}">
       </div>
 
       <!-- Hidden SEO H1 -->
-      <h1 class="sr-only">Mayur Bhavsar - Car Driving Professional Trainer Surat</h1>
+      <h1 class="sr-only">Mayur Bhavsr - Car Driving Professional Trainer Surat</h1>
 
       <!-- Trust Badges Row -->
       <div class="brand-badges-row">
@@ -130,7 +130,7 @@
           </div>
         </a>
 
-        <button class="quick-btn btn-vcard" id="btnSaveContact" type="button">
+        <button class="quick-btn btn-vcard" id="btnSaveContact" type="button" onclick="downloadVCard()">
           <div class="btn-icon"><i class="fa-solid fa-address-card"></i></div>
           <div class="btn-text">
             <span class="btn-label">Save Contact</span>
@@ -148,17 +148,6 @@
 
       </div>
 
-    </section>
-
-    <!-- Surat Location Notice Card -->
-    <section class="surat-notice-banner">
-      <div class="surat-notice-icon">
-        <i class="fa-solid fa-location-crosshairs"></i>
-      </div>
-      <div class="surat-notice-content">
-        <strong>📍 Exclusively Serving Surat City</strong>
-        <p>Doorstep pickup & personal car coaching available across all Surat areas: <em>Adajan, Vesu, Pal, Piplod, Althan, City Light, Varachha, Katargam & VIP Road</em>.</p>
-      </div>
     </section>
 
     <!-- Why Learn On Your Own Car? (USP Section) -->
@@ -285,36 +274,44 @@
       </div>
     </section>
 
-    <!-- Available Batch Time Slots (Mon - Fri) -->
+    <!-- Available Batch Time Slots (Monday to Friday) -->
     <section class="section-card">
       <div class="section-header">
         <div class="header-pill">SCHEDULE (MON - FRI)</div>
         <h2 class="section-title">Available Batch Slots & Date</h2>
-        <p class="section-subtitle">Select your preferred training start date and daily 2-hour batch time slot (Monday to Friday only)</p>
+        <p class="section-subtitle">Batches start every <strong>Monday</strong> with intensive Monday to Friday daily 2-hour coaching</p>
       </div>
 
-      <!-- Interactive Monday to Friday Start Date Picker Card -->
+      <!-- Interactive Monday to Friday Batch Schedule Card -->
       <div class="date-selector-card">
         <div class="date-selector-header">
           <div class="date-header-left">
             <i class="fa-regular fa-calendar-check text-gold"></i>
             <div>
-              <strong>Select Training Start Date</strong>
-              <span class="date-sub-tag">Monday to Friday Only &bull; Weekend Batches Closed</span>
+              <strong>Choose Starting Monday Batch</strong>
+              <span class="date-sub-tag">All batches start on Monday &bull; Weekends closed</span>
             </div>
           </div>
         </div>
 
-        <div class="date-input-wrap">
-          <label for="scheduleDateInput" class="date-input-label">
-            <i class="fa-solid fa-calendar-day"></i> Choose Starting Date:
-          </label>
-          <input type="date" id="scheduleDateInput" class="custom-date-field" onchange="handleDateChange(this.value)">
+        <!-- Dynamic Date Range Box (Start Mon -> End Fri) -->
+        <div class="active-batch-schedule-box">
+          <div class="batch-date-col">
+            <span class="batch-date-lbl"><i class="fa-solid fa-play text-gold"></i> Start Date (Mon):</span>
+            <strong id="displayStartMonDate" class="batch-date-val">Mon, 21 Sep 2026</strong>
+          </div>
+          <div class="batch-arrow-divider">
+            <i class="fa-solid fa-arrow-right"></i>
+          </div>
+          <div class="batch-date-col">
+            <span class="batch-date-lbl"><i class="fa-solid fa-flag-checkered text-green"></i> End Date (Fri):</span>
+            <strong id="displayEndFriDate" class="batch-date-val">Fri, 02 Oct 2026</strong>
+          </div>
         </div>
 
-        <!-- Quick Upcoming Weekday Shortcut Chips -->
+        <!-- Quick Upcoming Monday Batch Shortcut Chips -->
         <div class="quick-weekdays-row" id="quickWeekdaysContainer">
-          <!-- Dynamically populated via JS with next Mon-Fri options -->
+          <!-- Dynamically populated via JS with next Monday batch options -->
         </div>
       </div>
 
@@ -476,47 +473,46 @@
           </div>
         </div>
 
+        <!-- Email Address Field (Replaces Area/Address) -->
         <div class="form-group">
-          <label for="studentAddress"><i class="fa-solid fa-location-dot"></i> Surat Area / Address *</label>
-          <input type="text" id="studentAddress" placeholder="e.g. Vesu / Adajan / Pal / Piplod / Althan, Surat" required oninput="validateSuratLocation(this.value)">
-          <div id="suratLocationFeedback" class="location-feedback-row">
-            <span class="input-helper-text"><i class="fa-solid fa-circle-info"></i> Doorstep training across Surat city only.</span>
-          </div>
-          <!-- Live Non-Surat Warning Banner -->
-          <div id="suratLocationWarning" class="surat-warning-box" style="display: none;">
-            <i class="fa-solid fa-triangle-exclamation"></i>
-            <div>
-              <strong>📍 Only Surat Location Allowed</strong>
-              <p>Humari car driving training service <strong>sirf Surat city</strong> ke liye available hai. Please Surat ka area mention karein.</p>
-            </div>
-          </div>
+          <label for="studentEmail"><i class="fa-solid fa-envelope"></i> Email Address *</label>
+          <input type="email" id="studentEmail" placeholder="Enter your email (e.g. yourname@gmail.com)" required autocomplete="email">
         </div>
 
         <div class="form-group">
           <label for="selectedPackageForm"><i class="fa-solid fa-tag"></i> Select Package</label>
           <select id="selectedPackageForm" onchange="syncPackageSelection(this.value)">
-            <option value="Gold Package (₹10,000 / 10 Days)">Gold Package - ₹10,000 (10 Days) ⭐ Recommended</option>
-            <option value="Silver Package (₹5,000 / 5 Days)">Silver Package - ₹5,000 (5 Days)</option>
+            <option value="Gold Package (₹10,000 / 10 Days)">Gold Package - ₹10,000 (10 Days: 2 Weeks Mon-Fri) ⭐ Recommended</option>
+            <option value="Silver Package (₹5,000 / 5 Days)">Silver Package - ₹5,000 (5 Days: Mon to Fri)</option>
           </select>
         </div>
 
-        <div class="form-row">
+        <!-- Start Date (Monday) & End Date (Friday) Row -->
+        <div class="form-row date-range-row">
           <div class="form-group">
-            <label for="trainingStartDate"><i class="fa-regular fa-calendar-days"></i> Preferred Start Date *</label>
-            <input type="date" id="trainingStartDate" required onchange="handleFormDateChange(this.value)">
-            <span class="input-helper-text"><i class="fa-solid fa-circle-check"></i> Mon to Fri only (Weekends closed)</span>
+            <label for="trainingStartDate"><i class="fa-regular fa-calendar-days text-gold"></i> Start Date (Monday) *</label>
+            <select id="trainingStartDate" required onchange="handleFormDateChange(this.value)">
+              <!-- Dynamically populated with upcoming Mondays -->
+            </select>
+            <span class="input-helper-text"><i class="fa-solid fa-circle-check text-green"></i> Starts every Monday</span>
           </div>
 
           <div class="form-group">
-            <label for="selectedSlotForm"><i class="fa-solid fa-clock"></i> Preferred Batch Slot</label>
-            <select id="selectedSlotForm">
-              <option value="Morning 7:30 AM – 9:30 AM (Batch 1)">7:30 AM – 9:30 AM (Morning 1)</option>
-              <option value="Morning 10:00 AM – 12:00 PM (Batch 2)" selected>10:00 AM – 12:00 PM (Morning 2)</option>
-              <option value="Afternoon 1:30 PM – 3:30 PM (Batch)">1:30 PM – 3:30 PM (Afternoon)</option>
-              <option value="Evening 4:00 PM – 6:00 PM (Batch 1)">4:00 PM – 6:00 PM (Evening 1)</option>
-              <option value="Evening 6:30 PM – 8:30 PM (Batch 2)">6:30 PM – 8:30 PM (Evening 2)</option>
-            </select>
+            <label for="trainingEndDate"><i class="fa-regular fa-calendar-check text-green"></i> End Date (Friday)</label>
+            <input type="text" id="trainingEndDate" readonly class="calculated-end-date" value="Fri, 02 Oct 2026">
+            <span class="input-helper-text" id="endDateDurationTag"><i class="fa-solid fa-clock"></i> 10 Days (2 Weeks Mon-Fri)</span>
           </div>
+        </div>
+
+        <div class="form-group">
+          <label for="selectedSlotForm"><i class="fa-solid fa-clock"></i> Preferred Batch Slot</label>
+          <select id="selectedSlotForm">
+            <option value="Morning 7:30 AM – 9:30 AM (Batch 1)">7:30 AM – 9:30 AM (Morning 1)</option>
+            <option value="Morning 10:00 AM – 12:00 PM (Batch 2)" selected>10:00 AM – 12:00 PM (Morning 2)</option>
+            <option value="Afternoon 1:30 PM – 3:30 PM (Batch)">1:30 PM – 3:30 PM (Afternoon)</option>
+            <option value="Evening 4:00 PM – 6:00 PM (Batch 1)">4:00 PM – 6:00 PM (Evening 1)</option>
+            <option value="Evening 6:30 PM – 8:30 PM (Batch 2)">6:30 PM – 8:30 PM (Evening 2)</option>
+          </select>
         </div>
 
         <button type="submit" class="btn-submit-booking" id="btnProceedToPay">
@@ -543,10 +539,11 @@
         <div class="summary-details-grid" id="summaryDetailsGrid">
           <div class="summary-item"><span class="sum-label">Student:</span> <strong id="sumStudentName">Fill form above</strong></div>
           <div class="summary-item"><span class="sum-label">Car:</span> <strong id="sumStudentCar">—</strong></div>
-          <div class="summary-item"><span class="sum-label">Plan:</span> <strong id="sumPackage">Gold (10 Days)</strong></div>
-          <div class="summary-item"><span class="sum-label">Date:</span> <strong id="sumStartDate">Next Mon Batch</strong></div>
+          <div class="summary-item full-width"><span class="sum-label">Email:</span> <strong id="sumStudentEmail">—</strong></div>
+          <div class="summary-item full-width"><span class="sum-label">Plan:</span> <strong id="sumPackage">Gold Package (10 Days)</strong></div>
+          <div class="summary-item"><span class="sum-label">Start (Mon):</span> <strong id="sumStartDate">Mon, 21 Sep 2026</strong></div>
+          <div class="summary-item"><span class="sum-label">End (Fri):</span> <strong id="sumEndDate">Fri, 02 Oct 2026</strong></div>
           <div class="summary-item full-width"><span class="sum-label">Slot:</span> <strong id="sumSlot">Morning 10:00 AM – 12:00 PM</strong></div>
-          <div class="summary-item full-width"><span class="sum-label">Area:</span> <strong id="sumAddress">Surat City (Doorstep)</strong></div>
         </div>
       </div>
 
@@ -654,11 +651,11 @@
           </p>
         </div>
 
-        <!-- Direct WhatsApp Send CTA Button (Disabled by default until Txn ID is entered) -->
+        <!-- Direct WhatsApp Send CTA Button -->
         <div class="post-payment-cta">
-          <button type="button" class="btn-whatsapp-screenshot" id="btnSendWhatsappWithTxn" disabled onclick="sendFinalBookingWhatsApp()">
+          <button type="button" class="btn-whatsapp-screenshot locked" id="btnSendWhatsappWithTxn" onclick="sendFinalBookingWhatsApp()">
             <i class="fa-brands fa-whatsapp"></i>
-            <span id="btnWhatsappText">🔒 Enter Transaction ID Above to Unlock</span>
+            <span id="btnWhatsappText">🔒 Enter Transaction ID to Confirm on WhatsApp</span>
           </button>
           <div class="btn-disabled-hint" id="txnBtnHint">
             <i class="fa-solid fa-lock text-gold"></i> Please enter your UPI Transaction ID above to enable WhatsApp confirmation.
@@ -794,8 +791,8 @@
     <!-- Footer Information -->
     <footer class="app-footer">
       <div class="footer-brand">
-        <img src="./assets/logo.png" alt="Mayur Bhavsar Logo" class="footer-logo-img" onerror="if(window.BRAND_LOGO_B64){this.src=window.BRAND_LOGO_B64;}else{this.src='./assets/logo.svg';}">
-        <h4>Mayur Bhavsar</h4>
+        <img src="./assets/logo.png" alt="Mayur Bhavsr Logo" class="footer-logo-img" onerror="if(window.BRAND_LOGO_B64){this.src=window.BRAND_LOGO_B64;}else{this.src='./assets/logo.svg';}">
+        <h4>Mayur Bhavsr</h4>
         <p>Professional Car Driving Trainer</p>
       </div>
 
@@ -828,7 +825,7 @@
       </div>
 
       <div class="footer-copyright">
-        <p>&copy; 2026 Mayur Bhavsar. All Rights Reserved.</p>
+        <p>&copy; 2026 Mayur Bhavsr. All Rights Reserved.</p>
       </div>
     </footer>
 
@@ -862,7 +859,7 @@
       <div class="modal-qr-frame">
         <div id="websiteQrCode"></div>
       </div>
-      <div class="modal-url" id="modalWebsiteUrl">mayurbhavsar-driving.nfc</div>
+      <div class="modal-url" id="modalWebsiteUrl">mayurbhavsr-driving.nfc</div>
       <button class="btn-modal-action" onclick="copyWebsiteUrl()">
         <i class="fa-regular fa-copy"></i> Copy Website Link
       </button>
