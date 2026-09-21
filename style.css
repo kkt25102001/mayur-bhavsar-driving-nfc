@@ -336,25 +336,26 @@ body {
 
 .cover-badge-top-right {
   position: relative;
-  z-index: 3;
+  z-index: 5;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  background: rgba(16, 185, 129, 0.22);
-  border: 1px solid rgba(16, 185, 129, 0.55);
-  backdrop-filter: blur(10px);
-  color: #34D399;
+  gap: 6px;
+  background: #064E3B;
+  border: 1.5px solid #10B981;
+  color: #FFFFFF;
   font-family: var(--font-heading);
-  font-size: 0.65rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  padding: 4px 9px;
+  padding: 5px 12px;
   border-radius: var(--radius-full);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
-  letter-spacing: 0.2px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.65), 0 0 10px rgba(16, 185, 129, 0.3);
+  letter-spacing: 0.3px;
+  white-space: nowrap;
 }
 
 .cover-badge-top-right i {
-  color: #10B981;
+  color: #34D399;
+  font-size: 0.8rem;
 }
 
 /* 2. Center Floating Glowing Logo Emblem Box (Exact Match with Reference) */
@@ -3337,6 +3338,17 @@ body {
 
 [data-theme="light"] .hero-cover-overlay {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.3) 45%, rgba(255, 255, 255, 0.9) 85%, #FFFFFF 100%);
+}
+
+[data-theme="light"] .cover-badge-top-right {
+  background: #047857;
+  border: 1.5px solid #059669;
+  color: #FFFFFF;
+  box-shadow: 0 4px 15px rgba(4, 120, 87, 0.4);
+}
+
+[data-theme="light"] .cover-badge-top-right i {
+  color: #A7F3D0;
 }
 
 [data-theme="light"] .hero-logo-box {
