@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const src = 'C:/Users/LENOVO/.gemini/antigravity-ide/brain/732f844a-ca89-4232-921e-98b361b05d0a/hero_banner_1789975413680.jpg';
+const src = 'C:/Users/LENOVO/.gemini/antigravity-ide/brain/732f844a-ca89-4232-921e-98b361b05d0a/car_driving_trainer_1790000596807.jpg';
 const destDir = 'C:/Users/LENOVO/.gemini/antigravity-ide/scratch/mayur-bhavsar-driving-nfc/assets';
 
 if (fs.existsSync(src)) {
