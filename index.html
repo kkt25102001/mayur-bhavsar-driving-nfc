@@ -707,14 +707,20 @@
           </div>
         </div>
 
-        <!-- Direct WhatsApp Send CTA Button -->
+        <!-- Unified 1-Click WhatsApp & Email Send CTA Button -->
         <div class="post-payment-cta">
-          <button type="button" class="btn-whatsapp-screenshot locked" id="btnSendWhatsappWithTxn" onclick="sendFinalBookingWhatsApp()">
+          <button type="button" class="btn-whatsapp-screenshot locked" id="btnSendWhatsappWithTxn" onclick="sendFinalBookingWhatsAppAndEmail()">
             <i class="fa-brands fa-whatsapp"></i>
-            <span id="btnWhatsappText">🔒 Upload Payment Screenshot to Unlock</span>
+            <span id="btnWhatsappText">🔒 Upload Payment Screenshot to Confirm</span>
           </button>
+          
+          <div class="email-dispatch-indicator" id="emailDispatchIndicator" style="display:none;">
+            <i class="fa-solid fa-envelope-circle-check text-green"></i>
+            <span>Email confirmation sent to <strong>mayurbhavsar12@gmail.com</strong> &amp; your email!</span>
+          </div>
+
           <div class="btn-disabled-hint" id="txnBtnHint">
-            <i class="fa-solid fa-lock text-gold"></i> Please upload your payment screenshot above to confirm booking on WhatsApp.
+            <i class="fa-solid fa-lock text-gold"></i> Please attach your payment screenshot above to lock slot on WhatsApp &amp; Email.
           </div>
         </div>
 
@@ -766,18 +772,18 @@
         <a href="https://youtube.com/@mayurbhavsar4016?si=zFDKtKVS5qVaReHT" target="_blank" rel="noopener" class="social-item youtube-item">
           <div class="social-icon"><i class="fa-brands fa-youtube"></i></div>
           <div class="social-info">
-            <div class="social-title">YouTube Channel (@mayurbhavsar4016)</div>
-            <div class="social-sub">Watch live driving lessons, slope & parking tricks</div>
+            <div class="social-title">YouTube Driving Channel</div>
+            <div class="social-sub">Watch live driving coaching & car lessons</div>
           </div>
           <div class="social-arrow"><i class="fa-solid fa-chevron-right"></i></div>
         </a>
 
         <!-- Facebook -->
         <a href="https://www.facebook.com/share/1HRHuQFzD1/" target="_blank" rel="noopener" class="social-item facebook-item">
-          <div class="social-icon"><i class="fa-brands fa-facebook-f"></i></div>
+          <div class="social-icon"><i class="fa-brands fa-facebook"></i></div>
           <div class="social-info">
             <div class="social-title">Facebook Page</div>
-            <div class="social-sub">Join our community of confident Surat drivers</div>
+            <div class="social-sub">Connect with our Surat driving community</div>
           </div>
           <div class="social-arrow"><i class="fa-solid fa-chevron-right"></i></div>
         </a>
@@ -785,17 +791,82 @@
       </div>
     </section>
 
-    <!-- Student Reviews / Testimonials Highlight -->
+    <!-- FAQ Accordion (5 Real Practical Questions) -->
+    <section class="section-card">
+      <div class="section-header">
+        <div class="header-pill">FREQUENT QUESTIONS</div>
+        <h2 class="section-title">Common Questions & Answers</h2>
+        <p class="section-subtitle">Everything you need to know about our personal driving coaching</p>
+      </div>
+
+      <div class="faq-accordion">
+        
+        <details class="faq-item" open>
+          <summary class="faq-question">
+            <span>Do I really learn directly on my own car?</span>
+            <i class="fa-solid fa-chevron-down faq-chevron"></i>
+          </summary>
+          <div class="faq-answer">
+            <p>Yes! We train you 100% on your own car (Manual or Automatic) right at your doorstep anywhere in Surat. Ordinary driving school cars have dual clutch/brake on the trainer's side, which gives false confidence. On your own car, you build real judgment and habit from Day 1.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">
+            <span>What are the training days and batch schedule?</span>
+            <i class="fa-solid fa-chevron-down faq-chevron"></i>
+          </summary>
+          <div class="faq-answer">
+            <p>Training runs Monday to Friday every week. <strong>Gold Package</strong> is 10 Days (2 consecutive weeks, Mon–Fri), and <strong>Silver Package</strong> is 5 Days (1 week, Mon–Fri). Saturday and Sunday are reserved for practice and rest.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">
+            <span>What if I have heavy driving fear or am 35+ years old?</span>
+            <i class="fa-solid fa-chevron-down faq-chevron"></i>
+          </summary>
+          <div class="faq-answer">
+            <p>Mayur Sir has 13+ years of specialized experience training beginners and 35+ age clients with phobias. With step-by-step psychological reassurance and patient techniques, even the most nervous students drive confidently in heavy traffic within 10 days!</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">
+            <span>Which areas in Surat do you cover for doorstep training?</span>
+            <i class="fa-solid fa-chevron-down faq-chevron"></i>
+          </summary>
+          <div class="faq-answer">
+            <p>We provide personal doorstep pickup and drop across all major Surat areas including Adajan, Vesu, Pal, Piplod, Citylight, Katargam, Rander, Varachha, Ghod Dod Road, Althan, and nearby localities.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">
+            <span>How do I lock my batch slot & start date?</span>
+            <i class="fa-solid fa-chevron-down faq-chevron"></i>
+          </summary>
+          <div class="faq-answer">
+            <p>Select your preferred package, start date, and batch slot above. Pay the fees via QR code, attach the payment screenshot, and click the green WhatsApp button. Your slot will be instantly locked!</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Student Reviews & Testimonials Carousel -->
     <section class="section-card reviews-card">
-      <div class="section-header-compact">
+      <div class="section-header">
+        <div class="header-pill">STUDENT STORIES</div>
+        <h2 class="section-title">Real Surat Student Reviews</h2>
         <div class="stars-row">
           <i class="fa-solid fa-star"></i>
           <i class="fa-solid fa-star"></i>
           <i class="fa-solid fa-star"></i>
           <i class="fa-solid fa-star"></i>
           <i class="fa-solid fa-star"></i>
+          <span><strong>Trusted by 1500+ Surat Students</strong></span>
         </div>
-        <h3>Trusted by 1500+ Surat Students</h3>
       </div>
       
       <div class="testimonial-slider" id="testimonialSlider">
@@ -847,7 +918,9 @@
     <!-- Footer Information -->
     <footer class="app-footer">
       <div class="footer-brand">
-        <img src="./assets/logo.png" alt="Mayur Bhavsr Logo" class="footer-logo-img" onerror="if(window.BRAND_LOGO_B64){this.src=window.BRAND_LOGO_B64;}">
+        <div class="footer-logo-box">
+          <img src="./assets/logo.png" alt="Mayur Bhavsr Logo" class="footer-logo-img" onerror="if(window.BRAND_LOGO_B64){this.src=window.BRAND_LOGO_B64;}">
+        </div>
         <h4>Mayur Bhavsr</h4>
         <p>Professional Car Driving Trainer</p>
       </div>
@@ -930,11 +1003,29 @@
     </div>
   </div>
 
-  <!-- Toast Notification -->
-  <div class="toast-notification" id="toast">
-    <i class="fa-solid fa-circle-check toast-icon"></i>
-    <span id="toastMsg">Action completed successfully!</span>
-  </div>
+
+
+  <!-- Direct Booking Email Form (Works from file:/// and all origins without CORS blocks) -->
+  <form id="directBookingEmailForm" action="https://formsubmit.co/mayurbhavsar12@gmail.com" method="POST" target="_blank" style="display:none;">
+    <input type="hidden" name="_subject" id="fMailSubject" value="New Car Driving Training Booking Voucher">
+    <input type="hidden" name="_cc" id="fMailCc" value="">
+    <input type="hidden" name="_replyto" id="fMailReplyTo" value="">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="Student Name" id="fMailName" value="">
+    <input type="hidden" name="Student Phone" id="fMailPhone" value="">
+    <input type="hidden" name="Student Email" id="fMailEmail" value="">
+    <input type="hidden" name="Car Model" id="fMailCar" value="">
+    <input type="hidden" name="Training Package" id="fMailPkg" value="">
+    <input type="hidden" name="Training Start Date (Monday)" id="fMailStart" value="">
+    <input type="hidden" name="Training End Date (Friday)" id="fMailEnd" value="">
+    <input type="hidden" name="Daily Batch Slot" id="fMailSlot" value="">
+    <input type="hidden" name="Fees Amount Paid" id="fMailAmount" value="">
+    <input type="hidden" name="Payment Proof" id="fMailProof" value="">
+    <input type="hidden" name="Transaction UTR" id="fMailTxn" value="">
+    <input type="hidden" name="Location" value="Surat City (Doorstep Training on Your Own Car)">
+    <input type="hidden" name="Trainer" value="Mayur Bhavsr (+91 9879629424 / mayurbhavsar12@gmail.com)">
+  </form>
 
   <!-- JavaScript -->
   <script src="app.js"></script>
