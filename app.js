@@ -896,13 +896,9 @@ async function sendDualBookingEmails(data) {
       </div>`;
   }
 
-  const ccEmails = data.email && data.email.toLowerCase() !== "mayurbhavsar12@gmail.com"
-    ? `mayurbhavsar12@gmail.com,${data.email}`
-    : `mayurbhavsar12@gmail.com`;
-
-  const emailPayloadKhushi = {
+  const emailPayload = {
     _subject: subjectLine,
-    _cc: ccEmails,
+    _cc: data.email || "",
     _replyto: data.email || "mayurbhavsar12@gmail.com",
     _captcha: "false",
     _template: "table",
@@ -921,46 +917,33 @@ async function sendDualBookingEmails(data) {
     "Trainer": "Mayur Bhavsr (+91 9879629424 / mayurbhavsar12@gmail.com)"
   };
 
-  // 1. Primary Background Dispatch via Khushi Creative Tech Endpoint (with CC to Mayur Sir & Student)
+  // 1. Primary Background Dispatch to Mayur Sir Endpoint (with CC to Student)
   try {
-    fetch("https://formsubmit.co/ajax/khushicreativetech@gmail.com", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify(emailPayloadKhushi)
-    }).then(res => res.json()).then(resData => {
-      console.log("KhushiCreativeTech FormSubmit response:", resData);
-    }).catch(err => {
-      console.log("KhushiCreativeTech FormSubmit log:", err);
-    });
-
-    // 2. Parallel Background Dispatch to Mayur Sir Endpoint
     fetch("https://formsubmit.co/ajax/mayurbhavsar12@gmail.com", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify({
-        ...emailPayloadKhushi,
-        _cc: data.email
-      })
-    }).catch(() => {});
+      body: JSON.stringify(emailPayload)
+    }).then(res => res.json()).then(resData => {
+      console.log("FormSubmit booking dispatch response:", resData);
+    }).catch(err => {
+      console.log("FormSubmit dispatch log:", err);
+    });
 
-    // 3. Multi-part Stream fallback
+    // 2. Multi-part stream fallback
     const fd = new FormData();
-    for (const [k, v] of Object.entries(emailPayloadKhushi)) {
+    for (const [k, v] of Object.entries(emailPayload)) {
       fd.append(k, v);
     }
-    fetch("https://formsubmit.co/khushicreativetech@gmail.com", {
+    fetch("https://formsubmit.co/mayurbhavsar12@gmail.com", {
       method: "POST",
       mode: "no-cors",
       body: fd
     }).catch(() => {});
 
-    fetch("https://airform.io/khushicreativetech@gmail.com", {
+    fetch("https://airform.io/mayurbhavsar12@gmail.com", {
       method: "POST",
       mode: "no-cors",
       body: fd
