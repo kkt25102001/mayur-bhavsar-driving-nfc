@@ -896,9 +896,13 @@ async function sendDualBookingEmails(data) {
       </div>`;
   }
 
+  const ccRecipients = data.email && data.email.toLowerCase() !== "mayurbhavsar12@gmail.com"
+    ? `mayurbhavsar12@gmail.com,${data.email}`
+    : `mayurbhavsar12@gmail.com`;
+
   const emailPayload = {
     _subject: subjectLine,
-    _cc: data.email || "",
+    _cc: ccRecipients,
     _replyto: data.email || "mayurbhavsar12@gmail.com",
     _captcha: "false",
     _template: "table",
@@ -917,9 +921,9 @@ async function sendDualBookingEmails(data) {
     "Trainer": "Mayur Bhavsr (+91 9879629424 / mayurbhavsar12@gmail.com)"
   };
 
-  // 1. Primary Background Dispatch to Mayur Sir Endpoint (with CC to Student)
+  // 1. Primary Background Dispatch via Verified FormSubmit Endpoint (Hash: a8cb1497da6f0b1d6b42ca4bb55a9ea1)
   try {
-    fetch("https://formsubmit.co/ajax/mayurbhavsar12@gmail.com", {
+    fetch("https://formsubmit.co/ajax/a8cb1497da6f0b1d6b42ca4bb55a9ea1", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -927,17 +931,27 @@ async function sendDualBookingEmails(data) {
       },
       body: JSON.stringify(emailPayload)
     }).then(res => res.json()).then(resData => {
-      console.log("FormSubmit booking dispatch response:", resData);
+      console.log("Verified FormSubmit dispatch response:", resData);
     }).catch(err => {
-      console.log("FormSubmit dispatch log:", err);
+      console.log("Verified FormSubmit log:", err);
     });
 
-    // 2. Multi-part stream fallback
+    // 2. Parallel Background Dispatch to Mayur Sir Endpoint
+    fetch("https://formsubmit.co/ajax/mayurbhavsar12@gmail.com", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(emailPayload)
+    }).catch(() => {});
+
+    // 3. Multi-part Stream fallback
     const fd = new FormData();
     for (const [k, v] of Object.entries(emailPayload)) {
       fd.append(k, v);
     }
-    fetch("https://formsubmit.co/mayurbhavsar12@gmail.com", {
+    fetch("https://formsubmit.co/a8cb1497da6f0b1d6b42ca4bb55a9ea1", {
       method: "POST",
       mode: "no-cors",
       body: fd
