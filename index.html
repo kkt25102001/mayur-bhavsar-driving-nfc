@@ -15,7 +15,7 @@
   <meta property="og:title" content="Mayur Bhavsr - Car Driving Professional Trainer (Surat)">
   <meta property="og:description" content="Learn to Drive on Your Own Car. Doorstep coaching in Surat. 13+ Years Experience. Book your batch slot now!">
   <meta property="og:image" content="./assets/logo.png">
-  <meta name="theme-color" content="#0B0D12">
+  <meta name="theme-color" content="#F4F6F9">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="./assets/logo.png">
@@ -47,13 +47,16 @@
   <!-- Main Mobile-First Card Container -->
   <main class="app-card" id="app">
     
-    <!-- Top Sticky Header -->
+    <!-- Top Sticky Header Bar -->
     <header class="top-nav-bar">
       <div class="status-indicator">
         <span class="pulse-dot"></span>
-        <span class="status-text">Bookings Open &bull; Surat Batches</span>
+        <span class="status-text">24/7 Available for Bookings</span>
       </div>
       <div class="top-actions">
+        <button class="icon-btn" id="btnThemeToggle" title="Toggle Light/Dark Theme" aria-label="Toggle Theme" onclick="toggleTheme()">
+          <i class="fa-solid fa-sun" id="themeToggleIcon"></i>
+        </button>
         <button class="icon-btn" id="btnShareCard" title="Share Digital Card" aria-label="Share Card" onclick="shareDigitalCard()">
           <i class="fa-solid fa-share-nodes"></i>
         </button>
@@ -63,87 +66,93 @@
       </div>
     </header>
 
-    <!-- Hero Identity & Branding Section -->
+    <!-- Hero Identity & Branding Section (Matches Reference Design) -->
     <section class="hero-section">
       
-      <!-- Luxury Brand Logo Showcase Card -->
-      <div class="hero-brand-card">
-        <div class="brand-card-glow"></div>
-        <img src="./assets/logo.png" alt="Mayur Bhavsr Car Driving Professional Trainer Logo" class="brand-logo-img" id="mainBrandLogo" onerror="if(window.BRAND_LOGO_B64){this.src=window.BRAND_LOGO_B64;}else{this.src='./assets/logo.svg';}">
+      <!-- Hero Cover Banner with Verified Badge -->
+      <div class="hero-cover-banner">
+        <div class="cover-badge-top-right">
+          <i class="fa-solid fa-circle-check"></i> Verified Fleet & Trainer
+        </div>
+        <div class="hero-cover-overlay"></div>
       </div>
 
-      <!-- Hidden SEO H1 -->
-      <h1 class="sr-only">Mayur Bhavsr - Car Driving Professional Trainer Surat</h1>
-
-      <!-- Trust Badges Row -->
-      <div class="brand-badges-row">
-        <span class="badge badge-gold">
-          <i class="fa-solid fa-award"></i> Since 2012
-        </span>
-        <span class="badge badge-green">
-          <i class="fa-solid fa-shield-halved"></i> 13+ Years Experience
-        </span>
-        <span class="badge badge-surat">
-          <i class="fa-solid fa-location-dot"></i> Surat City Only
-        </span>
-      </div>
-      
-      <!-- Main Value Proposition Box -->
-      <div class="headline-box">
-        <div class="headline-tag"><i class="fa-solid fa-star text-gold"></i> DOORSTEP PERSONAL COACHING IN SURAT</div>
-        <h2 class="main-headline">Learn to Drive on <span class="highlight-gold">Your Own Car</span></h2>
-        <p class="sub-headline">Your Journey. Your Car. Our Guidance.</p>
-      </div>
-
-      <!-- Tagline Ticker Ribbon -->
-      <div class="tagline-ticker">
-        <div class="ticker-track">
-          <span class="ticker-item"><i class="fa-solid fa-car-side"></i> Drive Today, A Better Tomorrow</span>
-          <span class="ticker-divider">&bull;</span>
-          <span class="ticker-item"><i class="fa-solid fa-shield-heart"></i> Safe Driving</span>
-          <span class="ticker-divider">&bull;</span>
-          <span class="ticker-item"><i class="fa-solid fa-bolt"></i> 100% Confidence</span>
-          <span class="ticker-divider">&bull;</span>
-          <span class="ticker-item"><i class="fa-solid fa-gauge-high"></i> Drive with Skill</span>
-          <span class="ticker-divider">&bull;</span>
-          <span class="ticker-item"><i class="fa-solid fa-road"></i> Exclusively in Surat</span>
-          <span class="ticker-divider">&bull;</span>
+      <!-- Center Floating Glowing Logo Emblem Box (User's Original Logo) -->
+      <div class="hero-logo-wrapper">
+        <div class="hero-logo-box">
+          <img src="./assets/logo.png" alt="Mayur Bhavsr Car Driving Professional Trainer Logo" class="brand-logo-img" id="mainBrandLogo" onerror="if(window.BRAND_LOGO_B64){this.src=window.BRAND_LOGO_B64;}">
         </div>
       </div>
 
-      <!-- Quick Action 4-Grid (All Clickable) -->
-      <div class="quick-actions-grid">
+      <!-- Brand Title, Designation & Location Pill -->
+      <div class="hero-brand-info">
+        <h1 class="brand-name-title">MAYUR BHAVSR</h1>
+        <p class="brand-designation-sub">Professional Car Driving Trainer in Surat</p>
+        <div class="hero-location-pill">
+          <i class="fa-solid fa-location-dot"></i>
+          <span>Surat, Gujarat &bull; Doorstep Training Across Surat</span>
+        </div>
+      </div>
+
+      <!-- Key Stats 3-Column Strip -->
+      <div class="hero-stats-strip">
+        <div class="stat-col">
+          <span class="stat-val">13+ Yrs</span>
+          <span class="stat-lbl">EXPERIENCE</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-col">
+          <span class="stat-val">100%</span>
+          <span class="stat-lbl">CONFIDENCE & SAFETY</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-col">
+          <span class="stat-val">4.9 ★</span>
+          <span class="stat-lbl">TOP RATED</span>
+        </div>
+      </div>
+
+      <!-- 4-Grid Colorful Rounded Action Buttons (Blue, Green, Amber, Red) -->
+      <div class="hero-actions-2x2-grid">
         
-        <a href="tel:+919879629424" class="quick-btn btn-call" id="btnHeroCall">
-          <div class="btn-icon"><i class="fa-solid fa-phone-volume"></i></div>
-          <div class="btn-text">
-            <span class="btn-label">Call Now</span>
-            <span class="btn-sub">9879629424</span>
+        <!-- 1. Call Now (Blue) -->
+        <a href="tel:+919879629424" class="hero-pill-btn btn-call-blue" id="btnHeroCall">
+          <div class="btn-left-icon"><i class="fa-solid fa-phone-volume"></i></div>
+          <div class="btn-middle-text">
+            <span class="btn-title">Call Now</span>
+            <span class="btn-desc">+91 9879629424</span>
           </div>
+          <div class="btn-right-arrow"><i class="fa-solid fa-arrow-right"></i></div>
         </a>
 
-        <a href="https://wa.me/919879629424?text=Hi%20Mayur%20Sir%2C%20I%20am%20from%20Surat%20and%20interested%20in%20Car%20Driving%20Training%20on%20my%20own%20car.%20Please%20share%20details." target="_blank" rel="noopener" class="quick-btn btn-whatsapp" id="btnHeroWhatsapp">
-          <div class="btn-icon"><i class="fa-brands fa-whatsapp"></i></div>
-          <div class="btn-text">
-            <span class="btn-label">WhatsApp</span>
-            <span class="btn-sub">Instant Chat</span>
+        <!-- 2. WhatsApp (Green) -->
+        <a href="https://wa.me/919879629424?text=Hi%20Mayur%20Sir%2C%20I%20am%20from%20Surat%20and%20interested%20in%20Car%20Driving%20Training%20on%20my%20own%20car.%20Please%20share%20details." target="_blank" rel="noopener" class="hero-pill-btn btn-whatsapp-green" id="btnHeroWhatsapp">
+          <div class="btn-left-icon"><i class="fa-brands fa-whatsapp"></i></div>
+          <div class="btn-middle-text">
+            <span class="btn-title">WhatsApp</span>
+            <span class="btn-desc">Instant Booking Chat</span>
           </div>
+          <div class="btn-right-arrow"><i class="fa-solid fa-arrow-right"></i></div>
         </a>
 
-        <button class="quick-btn btn-vcard" id="btnSaveContact" type="button" onclick="downloadVCard()">
-          <div class="btn-icon"><i class="fa-solid fa-address-card"></i></div>
-          <div class="btn-text">
-            <span class="btn-label">Save Contact</span>
-            <span class="btn-sub">Add to Phone</span>
+        <!-- 3. Save Contact (Amber) -->
+        <button class="hero-pill-btn btn-save-amber" id="btnSaveContact" type="button" onclick="downloadVCard()">
+          <div class="btn-left-icon"><i class="fa-solid fa-address-card"></i></div>
+          <div class="btn-middle-text">
+            <span class="btn-title">Save Contact</span>
+            <span class="btn-desc">1-Tap Direct to Phone</span>
           </div>
+          <div class="btn-right-arrow"><i class="fa-solid fa-download"></i></div>
         </button>
 
-        <a href="https://g.co/kgs/Fj7B374" target="_blank" rel="noopener" class="quick-btn btn-location" id="btnHeroLocation">
-          <div class="btn-icon"><i class="fa-solid fa-location-dot"></i></div>
-          <div class="btn-text">
-            <span class="btn-label">Surat Location</span>
-            <span class="btn-sub">Google Maps</span>
+        <!-- 4. Google Review (Red) -->
+        <a href="https://g.page/r/CX3h5kU-yjysEBM/review" target="_blank" rel="noopener" class="hero-pill-btn btn-review-red" id="btnHeroReview">
+          <div class="btn-left-icon"><i class="fa-brands fa-google"></i></div>
+          <div class="btn-middle-text">
+            <span class="btn-title">Google Review</span>
+            <span class="btn-desc">Rate Us 5 Stars ★★★★★</span>
           </div>
+          <div class="btn-right-arrow"><i class="fa-solid fa-star"></i></div>
         </a>
 
       </div>
@@ -838,7 +847,7 @@
     <!-- Footer Information -->
     <footer class="app-footer">
       <div class="footer-brand">
-        <img src="./assets/logo.png" alt="Mayur Bhavsr Logo" class="footer-logo-img" onerror="if(window.BRAND_LOGO_B64){this.src=window.BRAND_LOGO_B64;}else{this.src='./assets/logo.svg';}">
+        <img src="./assets/logo.png" alt="Mayur Bhavsr Logo" class="footer-logo-img" onerror="if(window.BRAND_LOGO_B64){this.src=window.BRAND_LOGO_B64;}">
         <h4>Mayur Bhavsr</h4>
         <p>Professional Car Driving Trainer</p>
       </div>
@@ -876,21 +885,29 @@
       </div>
     </footer>
 
-    <!-- Floating Sticky Bottom Action Bar on Mobile -->
-    <div class="sticky-bottom-bar">
-      <a href="tel:+919879629424" class="sticky-btn call-sticky">
+    <!-- Floating Sticky Bottom Action Bar on Mobile (5 Icons Matching Reference) -->
+    <nav class="sticky-bottom-bar" aria-label="Quick Actions">
+      <a href="tel:+919879629424" class="sticky-nav-item" id="navCall">
         <i class="fa-solid fa-phone"></i>
         <span>Call</span>
       </a>
-      <a href="https://wa.me/919879629424?text=Hi%20Mayur%20Sir%2C%20I%20am%20from%20Surat%20and%20want%20to%20book%20Car%20Driving%20Training%20on%20my%20own%20car." target="_blank" rel="noopener" class="sticky-btn whatsapp-sticky">
+      <a href="https://wa.me/919879629424?text=Hi%20Mayur%20Sir%2C%20I%20am%20from%20Surat%20and%20want%20to%20book%20Car%20Driving%20Training%20on%20my%20own%20car." target="_blank" rel="noopener" class="sticky-nav-item" id="navWhatsapp">
         <i class="fa-brands fa-whatsapp"></i>
         <span>WhatsApp</span>
       </a>
-      <a href="#bookingPaymentSection" class="sticky-btn pay-sticky" onclick="smoothScrollTo('bookingPaymentSection')">
-        <i class="fa-solid fa-bolt"></i>
-        <span>Book & Pay</span>
+      <button type="button" class="sticky-nav-item" id="navSaveContact" onclick="downloadVCard()">
+        <i class="fa-solid fa-address-card text-gold"></i>
+        <span>Save Contact</span>
+      </button>
+      <a href="https://g.page/r/CX3h5kU-yjysEBM/review" target="_blank" rel="noopener" class="sticky-nav-item" id="navReview">
+        <i class="fa-solid fa-star text-danger"></i>
+        <span>Review</span>
       </a>
-    </div>
+      <a href="#bookingPaymentSection" class="sticky-nav-item" id="navBook" onclick="smoothScrollTo('bookingPaymentSection')">
+        <i class="fa-solid fa-car-side text-gold"></i>
+        <span>Book Slot</span>
+      </a>
+    </nav>
 
   </main>
 

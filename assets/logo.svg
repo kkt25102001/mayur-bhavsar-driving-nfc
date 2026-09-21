@@ -34,8 +34,8 @@
     </filter>
   </defs>
 
-  <!-- Background (Dark Canvas) -->
-  <rect width="100%" height="100%" fill="#090B0E" rx="16"/>
+  <!-- Background: 100% Transparent (No Solid Black Rectangle) -->
+  <rect width="100%" height="100%" fill="none"/>
 
   <!-- "Since 2012" Header Text -->
   <text x="250" y="46" text-anchor="middle" font-family="'Syne', 'Georgia', serif" font-size="20" font-weight="700" fill="#94A3B8" letter-spacing="2">Since 2012</text>

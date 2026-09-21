@@ -42,6 +42,7 @@ let websiteQrCodeInstance = null;
 
 // Initialize on DOM load
 document.addEventListener("DOMContentLoaded", () => {
+  initTheme();
   makeLogoTransparent();
   initDatePicker();
   initUpiQrCode(CONFIG.currentAmount);
@@ -51,85 +52,151 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
- * Automatically Remove Solid Black Background from Logo (Make Transparent PNG)
+ * Theme Management: Dark Mode vs Light Mode (Royal Pearl White & Gold)
+ */
+function initTheme() {
+  const savedTheme = localStorage.getItem("mayur_bhavsr_theme") || "dark";
+  applyTheme(savedTheme, false);
+}
+
+function applyTheme(theme, showNotification = false) {
+  document.documentElement.setAttribute("data-theme", theme);
+  try {
+    localStorage.setItem("mayur_bhavsr_theme", theme);
+  } catch (e) {
+    console.warn("LocalStorage error", e);
+  }
+
+  const icon = document.getElementById("themeToggleIcon");
+  const btn = document.getElementById("btnThemeToggle");
+
+  if (theme === "light") {
+    if (icon) {
+      icon.className = "fa-solid fa-moon";
+    }
+    if (btn) {
+      btn.title = "Switch to Dark Mode";
+      btn.setAttribute("aria-label", "Switch to Dark Mode");
+    }
+    if (showNotification) {
+      showToast("☀️ Switched to Royal Pearl Light Mode");
+    }
+  } else {
+    if (icon) {
+      icon.className = "fa-solid fa-sun";
+    }
+    if (btn) {
+      btn.title = "Switch to Light Mode";
+      btn.setAttribute("aria-label", "Switch to Light Mode");
+    }
+    if (showNotification) {
+      showToast("🌙 Switched to Luxury Obsidian Dark Mode");
+    }
+  }
+}
+
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+  const newTheme = currentTheme === "light" ? "dark" : "light";
+  applyTheme(newTheme, true);
+}
+
+window.toggleTheme = toggleTheme;
+window.applyTheme = applyTheme;
+
+/**
+ * Remove Solid Black Background from Brand Logo (Making it Transparent PNG)
  */
 function makeLogoTransparent() {
   const logoElements = document.querySelectorAll(".brand-logo-img, .footer-logo-img");
   if (!logoElements.length) return;
 
-  const tempImg = new Image();
-  tempImg.crossOrigin = "anonymous";
-  tempImg.onload = function () {
-    try {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      const w = tempImg.naturalWidth || tempImg.width;
-      const h = tempImg.naturalHeight || tempImg.height;
+  const processImage = (imgSrc) => {
+    const tempImg = new Image();
+    tempImg.crossOrigin = "anonymous";
+    tempImg.onload = function () {
+      try {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        const w = tempImg.naturalWidth || tempImg.width;
+        const h = tempImg.naturalHeight || tempImg.height;
 
-      canvas.width = w;
-      canvas.height = h;
-      ctx.drawImage(tempImg, 0, 0);
+        canvas.width = w;
+        canvas.height = h;
+        ctx.drawImage(tempImg, 0, 0);
 
-      const imgData = ctx.getImageData(0, 0, w, h);
-      const data = imgData.data;
+        const imgData = ctx.getImageData(0, 0, w, h);
+        const data = imgData.data;
 
-      // BFS Flood Fill from the 4 outer image borders to remove outer black background
-      const visited = new Uint8Array(w * h);
-      const queue = [];
+        // BFS Flood Fill from the 4 outer image borders to remove outer black background only
+        const visited = new Uint8Array(w * h);
+        const queue = new Int32Array(w * h * 2);
+        let head = 0;
+        let tail = 0;
 
-      for (let x = 0; x < w; x++) {
-        queue.push(x, 0);
-        queue.push(x, h - 1);
-      }
-      for (let y = 0; y < h; y++) {
-        queue.push(0, y);
-        queue.push(w - 1, y);
-      }
-
-      const threshold = 35;
-
-      let qIdx = 0;
-      while (qIdx < queue.length) {
-        const cx = queue[qIdx++];
-        const cy = queue[qIdx++];
-        const idx = cy * w + cx;
-
-        if (visited[idx]) continue;
-        visited[idx] = 1;
-
-        const pIdx = idx * 4;
-        const r = data[pIdx];
-        const g = data[pIdx + 1];
-        const b = data[pIdx + 2];
-
-        if (r <= threshold && g <= threshold && b <= threshold) {
-          const maxVal = Math.max(r, g, b);
-          if (maxVal < 14) {
-            data[pIdx + 3] = 0;
-          } else {
-            data[pIdx + 3] = Math.round(((maxVal - 14) / (threshold - 14)) * 255);
-          }
-
-          if (cx > 0 && !visited[idx - 1]) queue.push(cx - 1, cy);
-          if (cx < w - 1 && !visited[idx + 1]) queue.push(cx + 1, cy);
-          if (cy > 0 && !visited[idx - w]) queue.push(cx, cy - 1);
-          if (cy < h - 1 && !visited[idx + w]) queue.push(cx, cy + 1);
+        for (let x = 0; x < w; x++) {
+          queue[tail++] = x; queue[tail++] = 0;
+          queue[tail++] = x; queue[tail++] = h - 1;
         }
+        for (let y = 0; y < h; y++) {
+          queue[tail++] = 0; queue[tail++] = y;
+          queue[tail++] = w - 1; queue[tail++] = y;
+        }
+
+        const darkThreshold = 40;
+        const fadeThreshold = 16;
+
+        while (head < tail) {
+          const cx = queue[head++];
+          const cy = queue[head++];
+          const idx = cy * w + cx;
+
+          if (visited[idx]) continue;
+          visited[idx] = 1;
+
+          const pIdx = idx * 4;
+          const r = data[pIdx];
+          const g = data[pIdx + 1];
+          const b = data[pIdx + 2];
+          const maxVal = Math.max(r, g, b);
+
+          if (maxVal <= darkThreshold) {
+            if (maxVal <= fadeThreshold) {
+              data[pIdx + 3] = 0; // Transparent
+            } else {
+              // Smooth edge antialiasing
+              data[pIdx + 3] = Math.round(((maxVal - fadeThreshold) / (darkThreshold - fadeThreshold)) * 255);
+            }
+
+            if (cx > 0 && !visited[idx - 1]) { queue[tail++] = cx - 1; queue[tail++] = cy; }
+            if (cx < w - 1 && !visited[idx + 1]) { queue[tail++] = cx + 1; queue[tail++] = cy; }
+            if (cy > 0 && !visited[idx - w]) { queue[tail++] = cx; queue[tail++] = cy - 1; }
+            if (cy < h - 1 && !visited[idx + w]) { queue[tail++] = cx; queue[tail++] = cy + 1; }
+          }
+        }
+
+        ctx.putImageData(imgData, 0, 0);
+        const transparentDataUrl = canvas.toDataURL("image/png");
+
+        logoElements.forEach(img => {
+          img.src = transparentDataUrl;
+        });
+
+        const favicon = document.querySelector('link[rel="icon"]');
+        if (favicon) favicon.href = transparentDataUrl;
+      } catch (e) {
+        console.warn("Logo transparency processing notice:", e);
       }
+    };
 
-      ctx.putImageData(imgData, 0, 0);
-      const transparentDataUrl = canvas.toDataURL("image/png");
-
-      logoElements.forEach(img => {
-        img.src = transparentDataUrl;
-      });
-    } catch (e) {
-      console.warn("Logo transparency processing:", e);
-    }
+    tempImg.src = imgSrc;
   };
 
-  const firstLogo = logoElements[0];
-  if (firstLogo) tempImg.src = firstLogo.src;
+  if (window.BRAND_LOGO_B64) {
+    processImage(window.BRAND_LOGO_B64);
+  } else {
+    processImage("./assets/logo.png");
+  }
 }
 
 /**
