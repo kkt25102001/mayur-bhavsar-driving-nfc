@@ -499,10 +499,69 @@
           </div>
         </div>
 
-        <!-- Email Address Field (Replaces Area/Address) -->
+        <!-- Email Address Field -->
         <div class="form-group">
           <label for="studentEmail"><i class="fa-solid fa-envelope"></i> Email Address *</label>
           <input type="email" id="studentEmail" placeholder="Enter your email (e.g. yourname@gmail.com)" required autocomplete="email">
+        </div>
+
+        <!-- Student Address Fields (Strictly Surat City Only) -->
+        <div class="form-row" id="addressFormGroup">
+          <div class="form-group">
+            <label for="studentSuratArea"><i class="fa-solid fa-map-location-dot"></i> Surat Area / Locality *</label>
+            <select id="studentSuratArea" required onchange="handleSuratAreaChange(this.value)">
+              <option value="">-- Select Area in Surat --</option>
+              <option value="Adajan">Adajan</option>
+              <option value="Vesu">Vesu</option>
+              <option value="Pal">Pal / Palanpur</option>
+              <option value="Piplod">Piplod</option>
+              <option value="City Light / Parle Point">City Light / Parle Point</option>
+              <option value="Althan / New City Light">Althan / New City Light</option>
+              <option value="Bhatar">Bhatar</option>
+              <option value="Ghod Dod Road">Ghod Dod Road</option>
+              <option value="VIP Road / Canal Road">VIP Road / Canal Road</option>
+              <option value="Dumas / Dumas Road">Dumas / Dumas Road</option>
+              <option value="Katargam">Katargam</option>
+              <option value="Varachha">Varachha</option>
+              <option value="Mota Varachha">Mota Varachha</option>
+              <option value="Rander">Rander</option>
+              <option value="Jahangirpura">Jahangirpura</option>
+              <option value="Athwa Lines / Nanpura">Athwa Lines / Nanpura</option>
+              <option value="Majura Gate / Ring Road">Majura Gate / Ring Road</option>
+              <option value="Dindoli / Godadara">Dindoli / Godadara</option>
+              <option value="Sarthana / Punagam">Sarthana / Punagam</option>
+              <option value="Amroli / Singanpore">Amroli / Singanpore</option>
+              <option value="Udhna / Pandesara">Udhna / Pandesara</option>
+              <option value="Sachin / Bhestan">Sachin / Bhestan</option>
+              <option value="Kamrej / Pasodara">Kamrej / Pasodara</option>
+              <option value="Olpad / Sayan">Olpad / Sayan</option>
+              <option value="Other Area (Surat City)">Other Area (Surat City)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="studentAddress"><i class="fa-solid fa-house-chimney"></i> Flat/House &amp; Society *</label>
+            <input type="text" id="studentAddress" placeholder="e.g. A-302, Green Valley, Near Landmark" required autocomplete="street-address" oninput="handleAddressInput(this.value)">
+          </div>
+        </div>
+
+        <!-- Location Status & Warning Messages -->
+        <div class="form-group" style="margin-top: -4px;">
+          <span class="input-helper-text"><i class="fa-solid fa-location-crosshairs text-gold"></i> Doorstep personal training available strictly across Surat City (Gujarat)</span>
+          
+          <!-- Surat Location Warning Box (Shows when non-Surat city or invalid address is entered) -->
+          <div id="suratWarningBox" class="surat-warning-box" style="display: none;">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <div>
+              <strong id="suratWarningTitle">⚠️ Service Available in Surat City Only</strong>
+              <p id="suratWarningMsg">Doorstep car driving coaching is provided <strong>strictly within Surat City (Gujarat)</strong>. We currently do not provide service in other cities.</p>
+            </div>
+          </div>
+
+          <!-- Surat Location Valid Tag -->
+          <div id="suratValidTag" class="location-valid-tag" style="display: none;">
+            <i class="fa-solid fa-circle-check text-green"></i>
+            <span id="suratValidText">Surat City Doorstep Service Available</span>
+          </div>
         </div>
 
         <div class="form-group">
@@ -566,6 +625,7 @@
           <div class="summary-item"><span class="sum-label">Student:</span> <strong id="sumStudentName">Fill form above</strong></div>
           <div class="summary-item"><span class="sum-label">Car:</span> <strong id="sumStudentCar">—</strong></div>
           <div class="summary-item full-width"><span class="sum-label">Email:</span> <strong id="sumStudentEmail">—</strong></div>
+          <div class="summary-item full-width"><span class="sum-label">Address:</span> <strong id="sumStudentAddress">—</strong></div>
           <div class="summary-item full-width"><span class="sum-label">Plan:</span> <strong id="sumPackage">Gold Package (10 Days)</strong></div>
           <div class="summary-item"><span class="sum-label">Start (Mon):</span> <strong id="sumStartDate">Mon, 21 Sep 2026</strong></div>
           <div class="summary-item"><span class="sum-label">End (Fri):</span> <strong id="sumEndDate">Fri, 02 Oct 2026</strong></div>

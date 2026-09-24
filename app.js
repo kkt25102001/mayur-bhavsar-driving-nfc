@@ -28,6 +28,7 @@ const CONFIG = {
     name: "",
     phone: "",
     car: "",
+    email: "",
     address: "",
     package: "Gold Package (₹10,000 / 10 Days)",
     slot: "Morning 10:00 AM – 12:00 PM (Batch 2)",
@@ -556,6 +557,168 @@ function fallbackCopy(text) {
   document.body.removeChild(textArea);
 }
 
+// Known Surat Areas and Localities (Case-insensitive matching)
+const SURAT_AREAS = [
+  "surat", "adajan", "vesu", "pal", "piplod", "citylight", "city light", "althan", "bhatar",
+  "ghod dod", "ghoddod", "vip road", "dumas", "katargam", "varachha", "varacha", "rander",
+  "jahangirpura", "jehangirpura", "nanpura", "athwa", "athwalgate", "athwa lines", "majura",
+  "majura gate", "parle point", "udhna", "pandesara", "dindoli", "sarthana", "mota varachha",
+  "amroli", "punagam", "kamrej", "olpad", "godadara", "sachin", "limbayat", "begampura",
+  "salabatpura", "gopipura", "rustampura", "mahidharpura", "saiyedpura", "shahpore",
+  "ring road", "canal road", "dumas road", "bhatha", "bhestan", "bamroli", "kosamba",
+  "kadodara", "hazira", "chalthan", "singanpore", "dabholi", "ved road", "tarsadi", "kim",
+  "palsana", "sayan", "morabhagal", "vesu canal", "abrama", "anand mahal", "honey park",
+  "pal gam", "palanpur", "tadwadi", "choksiwadi", "laldarwaja", "lal darwaja", "khatodara", "bhagal",
+  "delhigate", "delhi gate", "station", "station road", "textile market", "ringroad", "gavier",
+  "magdalla", "vesu road", "alathan", "new rander", "parvat patiya", "parvat", "kumbharia"
+];
+
+// Outside Cities List (Explicit check for non-Surat cities)
+const OUTSIDE_CITIES = [
+  "ahmedabad", "amdavad", "vadodara", "baroda", "rajkot", "bhavnagar", "jamnagar",
+  "gandhinagar", "junagadh", "anand", "nadiad", "navsari", "valsad", "vapi", "bharuch",
+  "ankleshwar", "morbi", "surendranagar", "porbandar", "godhra", "patan", "palanpur",
+  "dahod", "bhuj", "kutch", "mehsana", "himatnagar", "amreli", "botad", "veraval",
+  "somnath", "mumbai", "bombay", "pune", "thane", "nashik", "nagpur", "delhi", "new delhi",
+  "noida", "gurgaon", "gurugram", "bangalore", "bengaluru", "hyderabad", "chennai",
+  "kolkata", "jaipur", "udaipur", "indore", "bhopal", "lucknow", "kanpur", "chandigarh",
+  "goa", "surat bahar", "out of surat", "outside surat", "other city", "kolhapur", "aurangabad"
+];
+
+/**
+ * Check if a text is random repetitive gibberish (e.g. "kjkjkjkjkjkjkjkjj", "asdfasdf", etc.)
+ */
+function isGibberishText(text) {
+  if (!text) return true;
+  const clean = text.replace(/[^a-zA-Z]/g, '').toLowerCase();
+  if (clean.length < 3) return true;
+  
+  if (clean.length >= 5) {
+    // Unique characters count check (e.g. 'kjkjkjkjkjkjkjkjj' has only 2 unique chars: j, k)
+    const uniqueChars = new Set(clean).size;
+    if (uniqueChars <= 2 && clean.length >= 5) return true;
+    if (uniqueChars <= 3 && clean.length >= 9) return true;
+
+    // Repetitive 1-3 char patterns (like 'jkjkjkjk', 'abcabcabc')
+    if (/(.{1,3})\1{3,}/.test(clean)) return true;
+
+    // Consonant only streaks with no vowels for >= 6 characters
+    if (clean.length >= 6 && !/[aeiouy]/.test(clean)) return true;
+  }
+  return false;
+}
+
+/**
+ * Validate that the entered address is strictly within Surat City
+ */
+function validateSuratAddress(streetAddress, selectedArea) {
+  const normStreet = (streetAddress || "").toLowerCase().trim();
+  const area = (selectedArea || document.getElementById("studentSuratArea")?.value || "").trim();
+  const normArea = area.toLowerCase();
+
+  // 1. Must select a valid Surat Area
+  if (!area || normArea === "" || normArea.includes("select")) {
+    return {
+      valid: false,
+      message: "Please select your Area / Locality in Surat from the dropdown."
+    };
+  }
+
+  // 2. Must enter a non-empty street/house address
+  if (!normStreet || normStreet.length < 3) {
+    return {
+      valid: false,
+      empty: true,
+      message: "Please enter your Flat/House No. and Society name in Surat."
+    };
+  }
+
+  // 3. Check if any outside city is mentioned in street address
+  for (const city of OUTSIDE_CITIES) {
+    const cityRegex = new RegExp(`\\b${city}\\b`, 'i');
+    if (cityRegex.test(normStreet) || normStreet.includes(city)) {
+      const displayCity = city.charAt(0).toUpperCase() + city.slice(1);
+      return {
+        valid: false,
+        outsideCity: true,
+        cityName: displayCity,
+        message: `Mayur Sir provides doorstep car driving coaching strictly within Surat City (Gujarat). We do not provide service in ${displayCity}.`
+      };
+    }
+  }
+
+  // 4. Reject random gibberish (like 'kjkjkjkjkjkjkjkjj')
+  if (isGibberishText(normStreet)) {
+    return {
+      valid: false,
+      message: "Please enter a valid Flat/House No. and Society name in Surat (e.g. A-302, Green Valley)."
+    };
+  }
+
+  const fullAddress = `${streetAddress.trim()}, ${area}, Surat`;
+  return {
+    valid: true,
+    area: area,
+    fullAddress: fullAddress,
+    message: `Doorstep Service Available in Surat (${area}) ✅`
+  };
+}
+
+/**
+ * Handle Surat Area Dropdown Change
+ */
+function handleSuratAreaChange(area) {
+  const streetInput = document.getElementById("studentAddress");
+  handleAddressInput(streetInput ? streetInput.value : "");
+}
+
+/**
+ * Real-time oninput handler for student address field
+ */
+function handleAddressInput(value) {
+  const warningBox = document.getElementById("suratWarningBox");
+  const warningTitle = document.getElementById("suratWarningTitle");
+  const warningMsg = document.getElementById("suratWarningMsg");
+  const validTag = document.getElementById("suratValidTag");
+  const validText = document.getElementById("suratValidText");
+  const selectedArea = document.getElementById("studentSuratArea")?.value || "";
+
+  if (!value || value.trim().length === 0) {
+    if (warningBox) warningBox.style.display = "none";
+    if (validTag) validTag.style.display = "none";
+    return;
+  }
+
+  const result = validateSuratAddress(value, selectedArea);
+
+  if (!result.valid) {
+    if (validTag) validTag.style.display = "none";
+    if (warningBox) {
+      warningBox.style.display = "flex";
+      if (warningTitle) {
+        warningTitle.textContent = result.outsideCity 
+          ? `⚠️ Service Not Available in ${result.cityName}` 
+          : `⚠️ Surat Location Verification Required`;
+      }
+      if (warningMsg) {
+        warningMsg.innerHTML = result.message;
+      }
+    }
+  } else {
+    if (warningBox) warningBox.style.display = "none";
+    if (validTag) {
+      validTag.style.display = "inline-flex";
+      if (validText) {
+        validText.textContent = `Doorstep Service Available in Surat (${result.area}) ✅`;
+      }
+    }
+  }
+}
+
+window.handleSuratAreaChange = handleSuratAreaChange;
+window.handleAddressInput = handleAddressInput;
+window.validateSuratAddress = validateSuratAddress;
+
 /**
  * Step 1: Interactive Booking Form Submit -> Locks Details & Takes User to QR Payment Section
  */
@@ -566,14 +729,18 @@ function handleBookingSubmit(event) {
   const phone = document.getElementById("studentPhone")?.value.trim();
   const car = document.getElementById("studentCar")?.value.trim();
   const email = document.getElementById("studentEmail")?.value.trim();
+  const selectedArea = document.getElementById("studentSuratArea")?.value.trim() || "";
+  const streetAddress = document.getElementById("studentAddress")?.value.trim() || "";
   const pkg = document.getElementById("selectedPackageForm")?.value || CONFIG.currentPackage;
   const slot = document.getElementById("selectedSlotForm")?.value || CONFIG.currentSlot;
   const startDate = CONFIG.currentDateFormatted || "Next Monday Batch";
   const amount = (pkg.includes("5,000") || pkg.includes("Silver")) ? 5000 : 10000;
   const endInfo = calculateFridayEndDate(CONFIG.currentDate, amount);
 
-  if (!name || !phone || !car || !email) {
-    showToast("Please fill all required student details");
+  if (!name || !phone || !car || !email || !selectedArea || !streetAddress) {
+    showToast("Please fill all student details and select your Surat Area");
+    if (!selectedArea) document.getElementById("studentSuratArea")?.focus();
+    else if (!streetAddress) document.getElementById("studentAddress")?.focus();
     return;
   }
 
@@ -584,12 +751,41 @@ function handleBookingSubmit(event) {
     return;
   }
 
+  // Strict Surat Location Validation
+  const addressCheck = validateSuratAddress(streetAddress, selectedArea);
+  if (!addressCheck.valid) {
+    const warningBox = document.getElementById("suratWarningBox");
+    const warningTitle = document.getElementById("suratWarningTitle");
+    const warningMsg = document.getElementById("suratWarningMsg");
+    if (warningBox) {
+      warningBox.style.display = "flex";
+      if (warningTitle) {
+        warningTitle.textContent = addressCheck.outsideCity 
+          ? `⚠️ Service Not Available in ${addressCheck.cityName}` 
+          : `⚠️ Invalid Surat Location`;
+      }
+      if (warningMsg) {
+        warningMsg.innerHTML = addressCheck.message;
+      }
+      warningBox.classList.add("shake-alert");
+      setTimeout(() => warningBox.classList.remove("shake-alert"), 600);
+    }
+    showToast(addressCheck.message || "⚠️ Service available only in Surat City!");
+    document.getElementById("studentAddress")?.focus();
+    return;
+  }
+
+  const fullAddress = addressCheck.fullAddress || `${streetAddress}, ${selectedArea}, Surat`;
+
   // Save to CONFIG.studentBooking state
   CONFIG.studentBooking = {
     name,
     phone,
     car,
     email,
+    address: fullAddress,
+    suratArea: selectedArea,
+    streetAddress: streetAddress,
     package: pkg,
     slot,
     startDate,
@@ -605,6 +801,7 @@ function handleBookingSubmit(event) {
   const sumStudentName = document.getElementById("sumStudentName");
   const sumStudentCar = document.getElementById("sumStudentCar");
   const sumStudentEmail = document.getElementById("sumStudentEmail");
+  const sumStudentAddress = document.getElementById("sumStudentAddress");
   const sumPackage = document.getElementById("sumPackage");
   const sumStartDate = document.getElementById("sumStartDate");
   const sumEndDate = document.getElementById("sumEndDate");
@@ -615,6 +812,7 @@ function handleBookingSubmit(event) {
   if (sumStudentName) sumStudentName.textContent = name;
   if (sumStudentCar) sumStudentCar.textContent = car;
   if (sumStudentEmail) sumStudentEmail.textContent = email;
+  if (sumStudentAddress) sumStudentAddress.textContent = fullAddress;
   if (sumPackage) sumPackage.textContent = amount === 5000 ? "Silver Package (5 Days)" : "Gold Package (10 Days)";
   if (sumStartDate) sumStartDate.textContent = startDate;
   if (sumEndDate) sumEndDate.textContent = endInfo.formatted;
@@ -780,18 +978,50 @@ async function sendFinalBookingWhatsAppAndEmail() {
   const phone = CONFIG.studentBooking.phone || document.getElementById("studentPhone")?.value.trim() || "";
   const car = CONFIG.studentBooking.car || document.getElementById("studentCar")?.value.trim() || "";
   const email = CONFIG.studentBooking.email || document.getElementById("studentEmail")?.value.trim() || "";
+  const selectedArea = CONFIG.studentBooking.suratArea || document.getElementById("studentSuratArea")?.value.trim() || "";
+  const streetAddress = CONFIG.studentBooking.streetAddress || document.getElementById("studentAddress")?.value.trim() || "";
+  const address = CONFIG.studentBooking.address || (streetAddress ? `${streetAddress}, ${selectedArea}, Surat` : "");
   const pkg = CONFIG.studentBooking.package || document.getElementById("selectedPackageForm")?.value || CONFIG.currentPackage;
   const slot = CONFIG.studentBooking.slot || document.getElementById("selectedSlotForm")?.value || CONFIG.currentSlot;
   const startDate = CONFIG.studentBooking.startDate || CONFIG.currentDateFormatted || "Next Monday Batch";
   const endDate = CONFIG.studentBooking.endDate || document.getElementById("trainingEndDate")?.value || "Calculated Friday";
   const amount = CONFIG.currentAmount || 10000;
 
-  // If student hasn't entered name or phone, smoothly guide them to registration form
-  if (!name || !phone || !car || !email) {
-    showToast("Please fill your student details in the form above first!");
+  // If student hasn't entered name or phone or address, smoothly guide them to registration form
+  if (!name || !phone || !car || !email || !selectedArea || !streetAddress) {
+    showToast("Please select your Surat area & enter address in the form above first!");
     smoothScrollTo("reservationSection");
     setTimeout(() => {
-      document.getElementById("studentName")?.focus();
+      if (!name) document.getElementById("studentName")?.focus();
+      else if (!selectedArea) document.getElementById("studentSuratArea")?.focus();
+      else if (!streetAddress) document.getElementById("studentAddress")?.focus();
+    }, 400);
+    return;
+  }
+
+  // Strict Surat Location Validation
+  const addressCheck = validateSuratAddress(streetAddress, selectedArea);
+  if (!addressCheck.valid) {
+    showToast(addressCheck.message || "⚠️ Service available only in Surat City!");
+    smoothScrollTo("reservationSection");
+    const warningBox = document.getElementById("suratWarningBox");
+    const warningTitle = document.getElementById("suratWarningTitle");
+    const warningMsg = document.getElementById("suratWarningMsg");
+    if (warningBox) {
+      warningBox.style.display = "flex";
+      if (warningTitle) {
+        warningTitle.textContent = addressCheck.outsideCity 
+          ? `⚠️ Service Not Available in ${addressCheck.cityName}` 
+          : `⚠️ Invalid Surat Location`;
+      }
+      if (warningMsg) {
+        warningMsg.innerHTML = addressCheck.message;
+      }
+      warningBox.classList.add("shake-alert");
+      setTimeout(() => warningBox.classList.remove("shake-alert"), 600);
+    }
+    setTimeout(() => {
+      document.getElementById("studentAddress")?.focus();
     }, 400);
     return;
   }
@@ -807,6 +1037,7 @@ async function sendFinalBookingWhatsAppAndEmail() {
     phone,
     car,
     email,
+    address,
     pkg: pkgTierName,
     startDate,
     endDate,
@@ -830,6 +1061,7 @@ ${paymentProofLine}${optionalTxnLine}
 • *Phone Number:* ${phone}
 • *Car Model:* ${car}
 • *Email ID:* ${email}
+• *Address / Area:* ${address}
 • *Selected Package:* ${pkgTierName}
 • *Training Start Date (Monday):* ${startDate}
 • *Training End Date (Friday):* ${endDate}
@@ -909,6 +1141,7 @@ async function sendDualBookingEmails(data) {
     "Student Name": data.name,
     "Student Phone": data.phone,
     "Student Email": data.email,
+    "Student Address (Surat)": data.address,
     "Car Model": data.car,
     "Training Package": data.pkg,
     "Training Start Date (Monday)": data.startDate,
