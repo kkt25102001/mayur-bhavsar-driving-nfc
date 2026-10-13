@@ -2383,6 +2383,43 @@ body {
   font-weight: 600;
 }
 
+.whatsapp-fallback-box {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.btn-whatsapp-direct-link {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: #FFFFFF !important;
+  font-family: var(--font-heading);
+  font-size: clamp(0.78rem, 3.4vw, 0.88rem);
+  font-weight: 800;
+  padding: 12px 14px;
+  border-radius: 14px;
+  text-decoration: none;
+  box-shadow: 0 4px 18px rgba(37, 211, 102, 0.45);
+  transition: all 0.25s ease;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.btn-whatsapp-direct-link:hover {
+  background: linear-gradient(135deg, #28E16F 0%, #149C8C 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(37, 211, 102, 0.65);
+}
+
+.btn-whatsapp-direct-link i {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
 /* ==========================================================================
    Social & Review Channels Hub (Compact 5 Items)
    ========================================================================== */

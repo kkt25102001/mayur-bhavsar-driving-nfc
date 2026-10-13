@@ -1070,42 +1070,72 @@ ${paymentProofLine}${optionalTxnLine}
 📍 *Doorstep Personal Coaching across Surat City*
 _I have attached my payment screenshot with this booking. Please confirm my slot lock and training schedule!_`;
 
-  // Attempt Mobile Native Share (Shares both Image File + Message Text directly into WhatsApp)
-  if (hasScreenshot && navigator.canShare && uploadedPaymentScreenshot.file) {
-    try {
-      if (navigator.canShare({ files: [uploadedPaymentScreenshot.file] })) {
-        await navigator.share({
-          title: "Mayur Bhavsr Driving Training Booking",
-          text: message,
-          files: [uploadedPaymentScreenshot.file]
-        });
-        triggerConfetti();
-        showToast("✅ Opening WhatsApp! Confirmation email sent to mayurbhavsar12@gmail.com & your email.");
-        return;
-      }
-    } catch (shareErr) {
-      if (shareErr.name === 'AbortError') return;
-      // Fallback to wa.me link
-    }
-  }
+  const encoded = encodeURIComponent(message);
+  const whatsappUrl = `https://wa.me/91${CONFIG.phone}?text=${encoded}`;
 
-  // Attempt to copy screenshot image to clipboard for convenient Ctrl+V in WhatsApp Web
+  // Attempt to copy screenshot image to clipboard in background (non-blocking, NO await) for convenient Ctrl+V in WhatsApp Web
   if (hasScreenshot && navigator.clipboard && window.ClipboardItem && uploadedPaymentScreenshot.file) {
     try {
-      await navigator.clipboard.write([
+      navigator.clipboard.write([
         new ClipboardItem({ [uploadedPaymentScreenshot.file.type]: uploadedPaymentScreenshot.file })
-      ]);
+      ]).catch(clipErr => {
+        console.log("Clipboard write notice:", clipErr);
+      });
     } catch (clipErr) {
       // Non-blocking clipboard fallback
     }
   }
 
-  const encoded = encodeURIComponent(message);
-  const whatsappUrl = `https://wa.me/91${CONFIG.phone}?text=${encoded}`;
-
+  // Trigger UI Celebration & Feedback
   triggerConfetti();
   showToast("✅ Opening WhatsApp! Confirmation email sent to mayurbhavsar12@gmail.com & your email.");
-  window.open(whatsappUrl, "_blank");
+
+  // Update button text and show persistent fallback button below
+  const btn = document.getElementById("btnSendWhatsappWithTxn");
+  const btnText = document.getElementById("btnWhatsappText");
+  if (btn) btn.classList.remove("locked");
+  if (btnText) btnText.innerHTML = `✅ Confirmed! WhatsApp &amp; Email Sent`;
+
+  showWhatsAppSuccessFallback(whatsappUrl);
+
+  // Directly & Synchronously Open WhatsApp (No awaits before this, preventing browser popup blockers)
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  if (isMobile) {
+    // On mobile devices, window.location.href directly launches the native WhatsApp app
+    window.location.href = whatsappUrl;
+  } else {
+    // On desktop, window.open synchronously opens WhatsApp Web in a new tab
+    const win = window.open(whatsappUrl, "_blank");
+    if (!win || win.closed || typeof win.closed === "undefined") {
+      // If browser popup blocker intervened on desktop, fallback to redirect
+      window.location.href = whatsappUrl;
+    }
+  }
+}
+
+/**
+ * Show a persistent direct link button for WhatsApp in case browser blocked popup or user needs to re-open
+ */
+function showWhatsAppSuccessFallback(whatsappUrl) {
+  let fallbackBox = document.getElementById("whatsappFallbackBox");
+  if (!fallbackBox) {
+    fallbackBox = document.createElement("div");
+    fallbackBox.id = "whatsappFallbackBox";
+    fallbackBox.className = "whatsapp-fallback-box";
+    const ctaContainer = document.querySelector(".post-payment-cta");
+    if (ctaContainer) {
+      ctaContainer.appendChild(fallbackBox);
+    }
+  }
+  if (fallbackBox) {
+    fallbackBox.style.display = "block";
+    fallbackBox.innerHTML = `
+      <a href="${whatsappUrl}" target="_blank" rel="noopener" class="btn-whatsapp-direct-link" id="btnWhatsappDirectLink">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span>💬 Tap Here to Open WhatsApp Chat (If not opened automatically)</span>
+      </a>
+    `;
+  }
 }
 
 window.sendFinalBookingWhatsApp = sendFinalBookingWhatsAppAndEmail;
@@ -1179,10 +1209,12 @@ async function sendDualBookingEmails(data) {
       body: JSON.stringify(emailPayload)
     }).catch(() => {});
 
-    // 3. Multi-part Stream fallback
     const fd = new FormData();
     for (const [k, v] of Object.entries(emailPayload)) {
       fd.append(k, v);
+    }
+    if (uploadedPaymentScreenshot && uploadedPaymentScreenshot.file) {
+      fd.append("attachment", uploadedPaymentScreenshot.file);
     }
     fetch("https://formsubmit.co/a8cb1497da6f0b1d6b42ca4bb55a9ea1", {
       method: "POST",
